@@ -20,5 +20,12 @@ if(!fpath) {
   return;
 }
 if(debug) console.log(fpath);
-const gd = new GoldDigger();
+
+// configuration
+const config = {};
+config.paintFormXObject = false;
+config.paintImageMaskXObject = false;
+config.paintJpegXObject = false;
+
+const gd = new GoldDigger(config);
 gd.dig(fpath, debug)
