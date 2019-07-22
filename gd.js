@@ -7,7 +7,7 @@ const help = `
 --output -o output format (optional - default text)
 `
 
-const supportedOutput = ['text', 'xml'];
+const supportedOutput = ['text', 'json'];
 const ERR_INVALID_OUTPUT = `
 Invalid output
 Please specify one of those values : "${supportedOutput}"
