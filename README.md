@@ -12,9 +12,11 @@ and [node.js](https://nodejs.org).
 ``pdfdig some_file.pdf``
 
 
-#### or by clonning repository
+#### or test by clonning repository
 ``git clone https://github.com/vane/pdf-gold-digger``  
-``node gd.js -f some_file.pdf``
+then run   
+``sh demo.sh``  
+and see results in ``out`` directory 
 
 ## Work in progress
 

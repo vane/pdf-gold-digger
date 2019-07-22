@@ -8,3 +8,7 @@ yarn.lock
 
 # ide
 *.iml
+
+# package
+out
+.external-ecmascript.js
