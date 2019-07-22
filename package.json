@@ -1,7 +1,7 @@
 {
   "name": "pdf-gold-digger",
   "version": "0.0.1",
-  "description": "Pdf information extraction library based on pdf.js and node.js",
+  "description": "Extract information from pdf using pdf.js and node.js",
   "author": "Michal Szczepanski <michal@vane.pl>",
   "main": "gd.js",
   "license": "MIT",
