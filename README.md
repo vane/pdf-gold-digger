@@ -7,6 +7,12 @@ and [node.js](https://nodejs.org).
 ## Work in progress
 
 ### Usage
+``
+npm install -g szczepano/pdf-gold-digger  
+pdfdig some_file.pdf
+``
+
+#### or by clonning repository
 ``git clone https://github.com/vane/pdf-gold-digger``  
 ``node gd.js -f some_file.pdf``
 
@@ -15,12 +21,12 @@ and [node.js](https://nodejs.org).
   - separate each page
   - separate each line
   - separate font information
-  - bounding box position 
+  - bounding box position (probably buggy now)
 - output to text ``-o text (default)``
 - output to json ``-o json`` 
 
 ### TODO:
-- specify output format and output directory    
+- specify output directory    
 - output to xml format
 - ~~output to json format~~
 - extract images to files
