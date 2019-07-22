@@ -8,7 +8,7 @@ and [node.js](https://nodejs.org).
 
 ### Usage
 ``git clone https://github.com/vane/pdf-gold-digger``  
-``gd -f some.pdf``
+``node gd.js -f some_file.pdf``
 
 ### Supports:
 - extract text
@@ -16,11 +16,13 @@ and [node.js](https://nodejs.org).
   - separate each line
   - separate font information
   - bounding box position 
+- output to text ``-o text (default)``
+- output to json ``-o json`` 
 
 ### TODO:
 - specify output format and output directory    
 - output to xml format
-- output to json format
+- ~~output to json format~~
 - extract images to files
 - extract font
 - extract tables
