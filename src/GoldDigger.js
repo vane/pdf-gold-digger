@@ -71,7 +71,7 @@ class GoldDigger {
 
   /**
    * Process page
-   * @param doc - pdf document
+   * @param page - pdf page
    * @param pageNum - page number
    */
   async digPage(page, pageNum) {
