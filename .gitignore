@@ -1,0 +1,9 @@
+# os
+.DS_Store
+
+# node
+node_modules
+yarn.lock
+
+# ide
+*.iml
