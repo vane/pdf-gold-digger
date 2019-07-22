@@ -1,4 +1,4 @@
-const GoldDigger = require('./lib/GoldDigger');
+const GoldDigger = require('./src/GoldDigger');
 const minimist = require('minimist');
 
 const help = `
