@@ -4,17 +4,19 @@ pdf-gold-digger
 Pdf information extraction library based on [pdf.js](https://mozilla.github.io/pdf.js/)
 and [node.js](https://nodejs.org).
 
-## Work in progress
+#### Install
+``npm install -g szczepano/pdf-gold-digger``  
+
 
 ### Usage
-``
-npm install -g szczepano/pdf-gold-digger  
-pdfdig some_file.pdf
-``
+``pdfdig some_file.pdf``
+
 
 #### or by clonning repository
 ``git clone https://github.com/vane/pdf-gold-digger``  
 ``node gd.js -f some_file.pdf``
+
+## Work in progress
 
 ### Supports:
 - extract text
