@@ -3,10 +3,11 @@
   "version": "0.0.1",
   "description": "Pdf information extraction library based on pdf.js and node.js",
   "author": "Michal Szczepanski <michal@vane.pl>",
-  "main": "main.js",
+  "main": "gd.js",
   "license": "MIT",
   "repository": "szczepano/pdf-gold-digger",
   "dependencies": {
+    "minimist": "^1.2.0",
     "pdfjs-dist": "^2.1.266"
   }
 }

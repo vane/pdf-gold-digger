@@ -6,6 +6,10 @@ and [node.js](https://nodejs.org).
 
 ## Work in progress
 
+### Usage
+``git clone https://github.com/vane/pdf-gold-digger``  
+``gd -f some.pdf``
+
 ### Supports:
 - extract text
   - separate each page
