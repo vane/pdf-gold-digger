@@ -1,13 +1,10 @@
+const VisitorBase = require('./VisitorBase');
+
 /**
  * Visits XObject data when parsing pdf
  * Currently only sets flag skip for XObjectBegin
  */
-class VisitorXObject {
-  constructor(config, debug, objectList) {
-    this.config = config;
-    this.debug = debug;
-    this.objectList = objectList;
-  }
+class VisitorXObject extends VisitorBase {
 
   /**
    * pdf.OPS.setTextMatrix

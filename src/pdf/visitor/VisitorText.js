@@ -1,15 +1,14 @@
 const Extract = require('./../Extract');
 const TextObject = require('./../model/TextObject');
+const VisitorBase = require('./VisitorBase');
 
 /**
  * Visits text data while parsing pdf
  */
-class VisitorText {
+class VisitorText extends VisitorBase {
   constructor(config, debug, objectList) {
+    super(config, debug, objectList);
     this.txt = new Extract.ExtractText();
-    this.config = config;
-    this.debug = debug;
-    this.objectList = objectList;
     this.currentObject;
     this.currentFont;
   }
