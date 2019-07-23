@@ -36,9 +36,12 @@ and see results in ``out`` directory
 - output to json ``-f json`` 
 
 ### TODO:
+- load pdf from remote location
+  - from url
 - specify output directory    
 - output to xml format
 - ~~output to json format~~
+- output to html format
 - ~~extract images to files~~
 - extract font
 - extract tables
