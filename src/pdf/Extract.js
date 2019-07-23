@@ -32,6 +32,7 @@ class ExtractText {
       if(spacing > 0) {
         throw Error("Not implemented !")
       }
+      // TODO use glyph font character
       partial += glyph.unicode;
       const width = glyph.width;
       // const widthAdvanceScale = font.size * line.fontMatrix[0];
