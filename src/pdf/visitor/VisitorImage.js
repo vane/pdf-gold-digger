@@ -10,7 +10,7 @@ class VisitorImage extends VisitorBase {
   constructor (config, debug, objectList) {
     super(config, debug, objectList);
     // this.debug = true;
-    FileManager.mkdirNotExists(this.config.outputDir);
+    FileManager.mkdirNotExists(`${this.config.outputDir}/img`);
   }
 
   /**
@@ -54,7 +54,7 @@ class VisitorImage extends VisitorBase {
     // TODO imlement mask
     const mask = false;
     const imgBinary = pdfjs.convertImgDataToPng(imgData, this.forceDataSchema, !!mask);
-    const fpath = `${this.config.outputDir}/page.${page.pageIndex}.${args[1]}.png`
+    const fpath = `${this.config.outputDir}/img/page.${page.pageIndex}.${args[1]}.png`
     await FileManager.saveFileAsync(fpath, imgBinary);
   }
 }

@@ -22,7 +22,12 @@ const mkdirNotExists = (path) => {
   }
 }
 
+const readdirSync = (path) => {
+  return fs.readdirSync(path)
+}
+
 module.exports = {
   saveFileAsync,
   mkdirNotExists,
+  readdirSync,
 }

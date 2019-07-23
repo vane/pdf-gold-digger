@@ -1,6 +1,6 @@
-const fs = require('fs');
 const minimist = require('minimist');
 const GoldDigger = require('./src/GoldDigger');
+const FileManager = require('./src/pdf/FileManager');
 
 
 const supportedFormat = ['text', 'json'];
@@ -53,11 +53,12 @@ config.outputDir = output;
 config.input = input;
 config.debug = debug;
 
+FileManager.mkdirNotExists(output);
 const gd = new GoldDigger(config);
 gd.dig().then(() => {
   console.log("-----------------------------------------------");
   console.log("Results : ");
-  fs.readdirSync(output).forEach(file => console.log(file));
+  FileManager.readdirSync(output).forEach(file => console.log(file));
   console.log("-----------------------------------------------");
 });
 
