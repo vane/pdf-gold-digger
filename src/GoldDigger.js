@@ -53,7 +53,7 @@ class GoldDigger {
     const doc = await this.getDocument(fpath, debug);
     if(debug) console.log(`Pages : ${doc.numPages}`);
     // prepare formatting
-    const format = this.config.output;
+    const format = this.config.format;
     const metadata = await doc.getMetadata();
     this.formatter.start(format, doc, metadata.info);
     // read pages

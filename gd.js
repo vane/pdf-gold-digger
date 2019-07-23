@@ -1,16 +1,18 @@
 const GoldDigger = require('./src/GoldDigger');
 const minimist = require('minimist');
 
-const help = `
---file -f pdf file location (required)
---debug -d show debug information (optional - default false)
---output -o output format (optional - default text)
+
+const supportedFormat = ['text', 'json'];
+const ERR_INVALID_FORMAT = `
+Invalid output
+Please specify one of those values : "${supportedFormat}"
 `
 
-const supportedOutput = ['text', 'json'];
-const ERR_INVALID_OUTPUT = `
-Invalid output
-Please specify one of those values : "${supportedOutput}"
+const helpText = `
+--input  or  -i   pdf file location (required)
+--debug  or  -d   show debug information (optional - default false)
+--format or  -f   format (optional - default "text") - ("${supportedFormat}"): 
+--help   or  -h   display this help message
 `
 
 // converts argument to boolean
@@ -19,16 +21,21 @@ const toBool = (val) => {
 }
 
 const argv = minimist(process.argv.slice(2))
-const fpath = argv['file'] || argv['f'];
+const help = argv['help'] || argv['h'];
+if(help) {
+  console.log(helpText);
+  return;
+}
+const fpath = argv['input'] || argv['i'];
 let debug = argv['debug'] || argv['d'];
-let output = argv['output'] || argv['o'] || 'text';
+let format = argv['format'] || argv['f'] || 'text';
 debug = toBool(debug);
-if(output && supportedOutput.indexOf(output) < 0) {
-  console.error(ERR_INVALID_OUTPUT);
+if(format && supportedFormat.indexOf(format) < 0) {
+  console.error(ERR_INVALID_FORMAT);
   return;
 }
 if(!fpath) {
-  console.log(help);
+  console.log(helpText);
   console.log(argv);
   return;
 }
@@ -39,7 +46,7 @@ const config = {};
 config.paintFormXObject = false;
 config.paintImageMaskXObject = false;
 config.paintJpegXObject = false;
-config.output = output;
+config.format = format;
 
 const gd = new GoldDigger(config);
 gd.dig(fpath, debug)

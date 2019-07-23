@@ -9,7 +9,7 @@ and [node.js](https://nodejs.org).
 
 
 ### Usage
-``pdfdig some_file.pdf``
+``pdfdig -i some_file.pdf``
 
 
 #### or test by clonning repository

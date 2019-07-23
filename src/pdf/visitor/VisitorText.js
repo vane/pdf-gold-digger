@@ -79,7 +79,7 @@ class VisitorText extends VisitorBase {
     const newLine = el.isNewLine(y);
     // new line
     if(newLine) {
-      if(this.config.output === 'text') el.printText();
+      if(this.config.format === 'text') el.printText();
       el = this.currentObject.newLine();
     }
     // create new text element always after new line
