@@ -184,6 +184,10 @@ class GoldDigger {
       const args = opTreeElement.args;
       // following switch methods are those unimplemented - all implemented are in default
       switch (fnId | 0) {
+        case pdf.OPS.beginAnnotations:
+          break;
+        case pdf.OPS.endAnnotations:
+          break;
         case pdf.OPS.dependency:
           // Handled in `loadDependencies`, so no warning should be shown.
           break;
