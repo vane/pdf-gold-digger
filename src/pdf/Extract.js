@@ -23,7 +23,7 @@ class ExtractText {
         continue;
       } else if (util.isNum(glyph)) {
         x += -glyph * font.size * 0.001;
-        if (glyph < 0) {
+        if (glyph === -250) {
           partial += " ";
         }
         continue;
