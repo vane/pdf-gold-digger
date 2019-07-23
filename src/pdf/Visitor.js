@@ -36,7 +36,7 @@ class Visitor {
     } else if (FN_IMAGE.indexOf(fname) > -1) {
       this.image[fname](args, page, dependencies);
     } else {
-      console.warn(`Unimplemented operator ${fn}`);
+      console.warn(`Unimplemented operator ${fname}`);
     }
   }
 }
