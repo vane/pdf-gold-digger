@@ -34,15 +34,14 @@ and see results in ``out`` directory
 - extract images
 - output to text ``-f text (default)``
 - output to json ``-f json`` 
+- specify output directory
 
 ### TODO:
 - load pdf from remote location
-  - from url
-- specify output directory    
+  - from url    
 - output to xml format
-- ~~output to json format~~
 - output to html format
-- ~~extract images to files~~
+- output to zip
 - extract font
 - extract tables
 - advanced font information
