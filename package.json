@@ -20,7 +20,8 @@
     "javascript",
     "js",
     "image-extract",
-    "text-extract"
+    "text-extract",
+    "pdf-text-extract"
   ],
   "scripts": {
     "doc": "esdoc"

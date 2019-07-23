@@ -5,11 +5,13 @@ Pdf information extraction library based on [pdf.js](https://mozilla.github.io/p
 and [node.js](https://nodejs.org).
 
 ### Install
-``npm install -g szczepano/pdf-gold-digger``  
+``npm install -g pdf-gold-digger``  
 
 
 ### Usage
-``pdfdig -i some_file.pdf``
+``pdfdig -i some_file.pdf``  
+see for help for all options  
+``pdfdig -h``  
 
 ### Documentation url
 [pdf-gold-digger](https://vane.pl/pdf-gold-digger/)
