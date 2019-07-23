@@ -12,8 +12,8 @@ class FormatterJSON {
   }
 
   /**
-   * Formats text object
-   * @param textObject
+   * Formats {TextObject} to JSON serializable object
+   * @param textObject {TextObject}
    * @returns {{lines: Array, x: *, y: *}}
    */
   formatTextObject(textObject) {
@@ -25,6 +25,11 @@ class FormatterJSON {
     return txtObjOut;
   }
 
+  /**
+   * Formats {TextLine} to JSON serializable object
+   * @param textLine {TextLine}
+   * @returns {{text: Array, x: *, y: *, w: *, h: *, textMatrix: *}}
+   */
   formatTextLine(textLine) {
     const txtLineOut = {
       text: [],
@@ -41,6 +46,11 @@ class FormatterJSON {
     return txtLineOut;
   }
 
+  /**
+   * Formats {TextFont} to JSON serializable object
+   * @param textFont {TextFont}
+   * @returns {{font: {size: (number|*), direction: (number|*), family: null, style: null, weight: null}, text: (string|TextFont|*), charSpacing: (number|*), wordSpacing: *}}
+   */
   formatTextFont(textFont) {
     const font = textFont.getFont();
     return {
@@ -57,6 +67,13 @@ class FormatterJSON {
     }
   }
 
+  /**
+   * See {Formatter}
+   * @param page
+   * @param data
+   * @param last
+   * @returns {string}
+   */
   format(page, data, last) {
     const txtData = [];
     data.forEach(textObject => {
@@ -70,6 +87,10 @@ class FormatterJSON {
     return `"${page.pageIndex}": ${out}${last ? '': ','}`
   }
 
+  /**
+   * See {Formatter}
+   * @returns {string}
+   */
   end() {
     return `}
     }
