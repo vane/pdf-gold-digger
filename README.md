@@ -22,15 +22,17 @@ ex. pdfdig -i input-file -o output_directory -f json
   --help   or  -h   display this help message
 ```
 
-### Documentation url
-[pdf-gold-digger](https://vane.pl/pdf-gold-digger/)
-
 
 #### or test by clonning repository
 ```git clone https://github.com/vane/pdf-gold-digger```    
 then run   
 ```sh demo.sh```  
 and see results in ```out``` directory 
+                            
+
+### Documentation url
+[pdf-gold-digger](https://vane.pl/pdf-gold-digger/)
+
 
 ## Work in progress
 
