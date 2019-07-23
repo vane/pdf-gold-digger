@@ -5,23 +5,32 @@ Pdf information extraction library based on [pdf.js](https://mozilla.github.io/p
 and [node.js](https://nodejs.org).
 
 ### Install
-``npm install -g pdf-gold-digger``  
+```npm install -g pdf-gold-digger```
 
 
 ### Usage
-``pdfdig -i some_file.pdf``  
-see for help for all options  
-``pdfdig -h``  
+```pdfdig -i some_file.pdf```
+for help use :  
+```pdfdig -h```
+```bash
+ex. pdfdig -i input-file -o output_directory -f json
+  
+  --input  or  -i   pdf file location (required)
+  --output or  -o   pdf file location (optional default "out")
+  --debug  or  -d   show debug information (optional - default "false")
+  --format or  -f   format (optional - default "text") - ("text,json"): 
+  --help   or  -h   display this help message
+```
 
 ### Documentation url
 [pdf-gold-digger](https://vane.pl/pdf-gold-digger/)
 
 
 #### or test by clonning repository
-``git clone https://github.com/vane/pdf-gold-digger``  
+```git clone https://github.com/vane/pdf-gold-digger```  
 then run   
-``sh demo.sh``  
-and see results in ``out`` directory 
+```sh demo.sh```  
+and see results in ```out``` directory 
 
 ## Work in progress
 
@@ -32,8 +41,8 @@ and see results in ``out`` directory
   - separate font information
   - bounding box position (probably buggy now)
 - extract images
-- output to text ``-f text (default)``
-- output to json ``-f json`` 
+- output to text ```-f text (default)```
+- output to json ```-f json```
 - specify output directory
 
 ### TODO:
