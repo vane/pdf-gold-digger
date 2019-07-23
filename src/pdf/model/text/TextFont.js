@@ -33,7 +33,11 @@ class TextFont extends PdfObject {
    * @param text {string}
    */
   setText(text) {
-    this._text = text;
+    if(this._text.length > 0) {
+      this._text += text;
+    } else {
+      this._text = text;
+    }
   }
 
   /**

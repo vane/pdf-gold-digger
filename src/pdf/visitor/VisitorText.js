@@ -31,6 +31,7 @@ class VisitorText extends VisitorBase {
     if (this.debug) console.log('setFont');
     if (this.config.skip) return;
     this.currentFont = this.txt.getFont(args, page, dependencies)
+    this.shouldNew = true;
   }
 
   /**
@@ -40,10 +41,15 @@ class VisitorText extends VisitorBase {
     if (this.debug) console.log("showText");
     if (this.config.skip) return;
     const el = this.currentObject.getLine();
+    // -i ../../github.com/pdf.js/test/pdfs/ZapfDingbats.pdf -f text null pointer
+    if(!el.getText()) {
+      el.newText();
+    }
     el.setFont(this.currentFont)
     const el2 = el.getText();
     // first text element workaround
-    el2.setText(this.txt.getText(args[0], el2)+" ");
+    const txt = this.txt.getText(args[0], el2)+" ";
+    el2.setText(txt);
   }
 
   /**
