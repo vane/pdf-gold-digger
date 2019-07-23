@@ -14,7 +14,7 @@ class FormatterJSON {
   /**
    * Formats {TextObject} to JSON serializable object
    * @param textObject {TextObject}
-   * @returns {{lines: Array, x: *, y: *}}
+   * @returns {object}
    */
   formatTextObject(textObject) {
     const txtObjOut = {lines: [], x: textObject.x, y: textObject.y};
@@ -28,7 +28,7 @@ class FormatterJSON {
   /**
    * Formats {TextLine} to JSON serializable object
    * @param textLine {TextLine}
-   * @returns {{text: Array, x: *, y: *, w: *, h: *, textMatrix: *}}
+   * @returns {object}
    */
   formatTextLine(textLine) {
     const txtLineOut = {
@@ -49,7 +49,7 @@ class FormatterJSON {
   /**
    * Formats {TextFont} to JSON serializable object
    * @param textFont {TextFont}
-   * @returns {{font: {size: (number|*), direction: (number|*), family: null, style: null, weight: null}, text: (string|TextFont|*), charSpacing: (number|*), wordSpacing: *}}
+   * @returns {object}
    */
   formatTextFont(textFont) {
     const font = textFont.getFont();

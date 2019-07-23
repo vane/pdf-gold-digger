@@ -33,7 +33,7 @@ and see results in ``out`` directory
 - specify output directory    
 - output to xml format
 - ~~output to json format~~
-- extract images to files
+- ~~extract images to files~~
 - extract font
 - extract tables
 - advanced font information

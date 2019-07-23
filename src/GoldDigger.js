@@ -1,8 +1,10 @@
 const fs = require('fs');
 const pdf = require('pdfjs-dist');
+const util = require('pdfjs-dist/lib/shared/util');
 const Extract = require('./pdf/Extract');
 const Visitor = require('./pdf/Visitor');
 const Formatter = require('./pdf/Formatter');
+const FileManager = require('./pdf/FileManager');
 
 /**
  * Generic error
@@ -20,37 +22,33 @@ class GoldDigger {
   constructor(config) {
     this.config = config;
     this.visitor = new Visitor(config);
-    this.formatter = new Formatter()
+    this.formatter = new Formatter(config);
   }
 
   /**
    * Checks if file exists load file to memory and returns PDFDocument
-   * @param fpath - pdf file path
-   * @param debug - debug bool flag
-   * @returns {Promise<PDFDocument>}
    */
-  async getDocument(fpath, debug) {
-    if (!fs.existsSync(fpath)) {
-      throw new GoldDiggerError(`File not exists ${fpath}`);
+  async getDocument() {
+    if (!fs.existsSync(this.config.input)) {
+      throw new GoldDiggerError(`File not exists ${this.config.input}`);
     }
-    if(debug) console.log('Reading pdf');
+    if(this.config.debug) console.log('Reading pdf');
     // read file
-    const data = fs.readFileSync(fpath);
-    if(debug) console.log(data.length);
+    const data = fs.readFileSync(this.config.input);
+    if(this.config.debug) console.log(data.length);
     const doc = await pdf.getDocument({
-      data:data,
+      data: data,
     }).promise;
     return doc
   }
 
   /**
    * Main method for pdf-gold-diger
-   * @param fpath - pdf file path
-   * @param debug - debug bool flag
    * @returns {Promise<void>}
    */
-  async dig(fpath, debug) {
-    const doc = await this.getDocument(fpath, debug);
+  async dig() {
+    const doc = await this.getDocument();
+    const debug = this.config.debug;
     if(debug) console.log(`Pages : ${doc.numPages}`);
     // prepare formatting
     const format = this.config.format;
@@ -67,6 +65,9 @@ class GoldDigger {
       if(debug) console.log(`--- END Page ${pageNum} objects : ${output.length}`)
     }
     this.formatter.end(format);
+    // save to file
+    const fpath = `${this.config.outputDir}/data.${format}`;
+    await FileManager.saveFileAsync(fpath, this.formatter.data);
   }
 
   /**
@@ -297,18 +298,6 @@ class GoldDigger {
         case pdf.OPS.paintSolidColorImageMask:
           if(debug) console.log('paintSolidColorImageMask');
           //this.paintSolidColorImageMask();
-          break;
-        case pdf.OPS.paintJpegXObject:
-          if(debug) console.log('paintJpegXObject');
-          //this.paintJpegXObject(args[0], args[1], args[2]);
-          break;
-        case pdf.OPS.paintImageXObject:
-          if(debug) console.log('paintImageXObject');
-          //this.paintImageXObject(args[0]);
-          break;
-        case pdf.OPS.paintInlineImageXObject:
-          if(debug) console.log('paintInlineImageXObject');
-          //this.paintInlineImageXObject(args[0]);
           break;
         case pdf.OPS.paintImageMaskXObject:
           if(debug) console.log('paintImageMaskXObject');

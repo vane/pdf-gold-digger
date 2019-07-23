@@ -1,5 +1,6 @@
 const FontObject = require('./model/FontObject');
 const Constraints = require('./Constraints');
+const util = require('pdfjs-dist/lib/shared/util');
 
 /**
  * Extracts text information from glyphs
@@ -20,7 +21,7 @@ class ExtractText {
         // Word break
         x += font.direction * line.wordSpacing;
         continue;
-      } else if (this.isNum(glyph)) {
+      } else if (util.isNum(glyph)) {
         x += -glyph * font.size * 0.001;
         if (glyph < 0) {
           partial += " ";
@@ -78,16 +79,6 @@ class ExtractText {
       font.family = fontObj.loadedName;
     }
     return font;
-  }
-
-  /**
-   * Checks if v is number
-   * see pdf.js/shared/util.js isNum
-   * @param v number value
-   * @returns {boolean} true if it's number
-   */
-  isNum(v) {
-    return typeof v === 'number';
   }
 }
 

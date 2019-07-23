@@ -1,5 +1,6 @@
-const GoldDigger = require('./src/GoldDigger');
+const fs = require('fs');
 const minimist = require('minimist');
+const GoldDigger = require('./src/GoldDigger');
 
 
 const supportedFormat = ['text', 'json'];
@@ -10,7 +11,8 @@ Please specify one of those values : "${supportedFormat}"
 
 const helpText = `
 --input  or  -i   pdf file location (required)
---debug  or  -d   show debug information (optional - default false)
+--output or  -o   pdf file location (optional default "out")
+--debug  or  -d   show debug information (optional - default "false")
 --format or  -f   format (optional - default "text") - ("${supportedFormat}"): 
 --help   or  -h   display this help message
 `
@@ -26,7 +28,9 @@ if(help) {
   console.log(helpText);
   return;
 }
-const fpath = argv['input'] || argv['i'];
+
+const input = argv['input'] || argv['i'];
+const output = argv['output'] || argv['o'] || 'out';
 let debug = argv['debug'] || argv['d'];
 let format = argv['format'] || argv['f'] || 'text';
 debug = toBool(debug);
@@ -34,19 +38,27 @@ if(format && supportedFormat.indexOf(format) < 0) {
   console.error(ERR_INVALID_FORMAT);
   return;
 }
-if(!fpath) {
+if(!input) {
   console.log(helpText);
   console.log(argv);
   return;
 }
-if(debug) console.log(fpath);
+if(debug) console.log(input);
 
 // configuration
 const config = {};
 config.paintFormXObject = false;
-config.paintImageMaskXObject = false;
-config.paintJpegXObject = false;
 config.format = format;
+config.outputDir = output;
+config.input = input;
+config.debug = debug;
 
 const gd = new GoldDigger(config);
-gd.dig(fpath, debug)
+gd.dig().then(() => {
+  console.log("-----------------------------------------------");
+  console.log("Results : ");
+  fs.readdirSync(output).forEach(file => console.log(file));
+  console.log("-----------------------------------------------");
+});
+
+
