@@ -11,6 +11,9 @@ and [node.js](https://nodejs.org).
 ### Usage
 ``pdfdig -i some_file.pdf``
 
+### Documentation url
+[pdf-gold-digger](https://vane.pl/pdf-gold-digger/)
+
 
 #### or test by clonning repository
 ``git clone https://github.com/vane/pdf-gold-digger``  
@@ -26,8 +29,9 @@ and see results in ``out`` directory
   - separate each line
   - separate font information
   - bounding box position (probably buggy now)
-- output to text ``-o text (default)``
-- output to json ``-o json`` 
+- extract images
+- output to text ``-f text (default)``
+- output to json ``-f json`` 
 
 ### TODO:
 - specify output directory    

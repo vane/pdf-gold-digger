@@ -13,6 +13,15 @@
   "bin": {
     "pdfdig": "./bin/pdfdig"
   },
+  "keywords": [
+    "pdf",
+    "pdf-extractor",
+    "extract",
+    "javascript",
+    "js",
+    "image-extract",
+    "text-extract"
+  ],
   "scripts": {
     "doc": "esdoc"
   },
