@@ -9,7 +9,7 @@ and [node.js](https://nodejs.org).
 
 
 ### Usage
-```pdfdig -i some_file.pdf```
+```pdfdig -i some_file.pdf```  
 for help use :  
 ```pdfdig -h```
 ```bash
@@ -27,7 +27,7 @@ ex. pdfdig -i input-file -o output_directory -f json
 
 
 #### or test by clonning repository
-```git clone https://github.com/vane/pdf-gold-digger```  
+```git clone https://github.com/vane/pdf-gold-digger```    
 then run   
 ```sh demo.sh```  
 and see results in ```out``` directory 
