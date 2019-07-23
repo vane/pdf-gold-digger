@@ -10,6 +10,8 @@ Please specify one of those values : "${supportedFormat}"
 `
 
 const helpText = `
+ex. pdfdig -i input-file -o output_directory -f json
+
 --input  or  -i   pdf file location (required)
 --output or  -o   pdf file location (optional default "out")
 --debug  or  -d   show debug information (optional - default "false")
