@@ -1,6 +1,6 @@
 {
   "name": "pdf-gold-digger",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Extract information from pdf using pdf.js and node.js",
   "author": "Michal Szczepanski <michal@vane.pl>",
   "main": "gd.js",
