@@ -55,12 +55,12 @@ class GoldDigger {
     this.formatter.start(format, doc, metadata.info);
     // read pages
     for(let pageNum = 1; pageNum <= doc.numPages; pageNum++) {
-      const page = await doc.getPage(pageNum);
-      const viewport = page.getViewport({ scale: 1.0, });
+      const pageData = await doc.getPage(pageNum);
+      const viewport = pageData.getViewport({ scale: 1.0, });
       if(debug) console.log(`--- BEGIN Page ${pageNum} size: ${viewport.width}x${viewport.height}`);
-      const output = await this.digPage(page, pageNum);
+      const output = await this.digPage(pageData, pageNum);
       const last = pageNum == doc.numPages;
-      this.formatter.format(format, page, output, last);
+      this.formatter.format(format, pageData, output, last);
       if(debug) console.log(`--- END Page ${pageNum} objects : ${output.length}`)
     }
     this.formatter.end(format);
@@ -71,29 +71,29 @@ class GoldDigger {
 
   /**
    * Process page
-   * @param page - pdf page
+   * @param pageData - pdf page
    * @param pageNum - page number
    */
-  async digPage(page, pageNum) {
+  async digPage(pageData, pageNum) {
 
     //const text = await page.extractTextContent();
-    const operatorList = await page.getOperatorList();
+    const operatorList = await pageData.getOperatorList();
     // page.commonObjs, page.objs
     // load dependencies
-    const dependencies = await this.loadDependencies(page, operatorList);
+    const dependencies = await this.loadDependencies(pageData, operatorList);
     const opTree = this.convertOpList(operatorList);
-    const visitor = new Visitor(this.config, page, dependencies);
+    const visitor = new Visitor(this.config, pageData, dependencies);
     this.executeOpTree(opTree, visitor);
     return visitor.objectList;
   }
 
   /**
    * Loads pdf dependencies (SVGGraphics)
-   * @param page
+   * @param pageData
    * @param operatorList
    * @returns {Promise<Array>}
    */
-  async loadDependencies(page, operatorList) {
+  async loadDependencies(pageData, operatorList) {
     const fnArray = operatorList.fnArray;
     const argsArray = operatorList.argsArray;
     const out = [];
@@ -102,7 +102,7 @@ class GoldDigger {
         continue;
       }
       for (const obj of argsArray[i]) {
-        const objsPool = obj.startsWith('g_') ? page.commonObjs : page.objs;
+        const objsPool = obj.startsWith('g_') ? pageData.commonObjs : pageData.objs;
         const o = await objsPool.get(obj);
         out.push(o);
       }

@@ -1,6 +1,5 @@
-const VisitorText = require('./visitor/VisitorText');
-const VisitorXObject = require('./visitor/VisitorXObject');
-const VisitorImage = require('./visitor/VisitorImage');
+const Vis = require('./visitor');
+const Model = require('./model');
 
 const FN_TEXT = ['beginText', 'setFont', 'showText', 'showSpacedText', 'endText', 'moveText'];
 const FN_XOBJECT = ['setTextMatrix', 'paintFormXObjectBegin', 'paintFormXObjectEnd'];
@@ -11,15 +10,16 @@ const FN_IMAGE = ['paintJpegXObject', 'paintImageXObject', 'paintInlineImageXObj
  */
 class Visitor {
 
-  constructor (config, page, dependencies, debug) {
+  constructor (config, pageData, dependencies, debug) {
     this.objectList = [];
     this.config = config;
     this.config.skip = false;
-    this.page = page;
+    this.pageData = pageData;
+    this.page = new Model.PdfPage()
     this.dependencies = dependencies;
-    this.txt = new VisitorText(config, page, dependencies, debug, this.objectList);
-    this.xobject = new VisitorXObject(config, page, dependencies, debug, this.objectList);
-    this.image = new VisitorImage(config, page, dependencies, debug, this.objectList);
+    this.txt = new Vis.VisitorText(config, pageData, dependencies, debug, this.objectList);
+    this.xobject = new Vis.VisitorXObject(config, pageData, dependencies, debug, this.objectList);
+    this.image = new Vis.VisitorImage(config, pageData, dependencies, debug, this.objectList);
     this.debug = config.debug;
   }
 
@@ -27,8 +27,6 @@ class Visitor {
    * Parse incoming data learn more by checking visitor pattern
    * @param fname - function name to be visited
    * @param args - function arguments
-   * @param page - pdf page
-   * @param dependencies - loaded pdf dependencies
    */
   visit(fname, args) {
     if(FN_TEXT.indexOf(fname) > -1) {

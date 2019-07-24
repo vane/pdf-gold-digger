@@ -7,12 +7,11 @@ const Geometry = require('../model/Geometry');
  * Visits text data while parsing pdf
  */
 class VisitorText extends VisitorBase {
-  constructor(config, page, dependencies, debug, objectList) {
-    super(config, page, dependencies, debug, objectList);
+  constructor(config, pageData, dependencies, debug, objectList) {
+    super(config, pageData, dependencies, debug, objectList);
     this.txt = new Extract.ExtractText();
     this.currentObject;
     this.currentFont;
-    this.position = new Geometry.Point();
   }
 
   /**
@@ -33,7 +32,7 @@ class VisitorText extends VisitorBase {
   setFont(args) {
     if (this.debug) console.log('setFont');
     if (this.config.skip) return;
-    this.currentFont = this.txt.getFont(args, this.page, this.dependencies)
+    this.currentFont = this.txt.getFont(args, this.pageData, this.dependencies)
   }
 
   /**
