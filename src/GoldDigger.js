@@ -191,34 +191,6 @@ class GoldDigger {
         case pdf.OPS.dependency:
           // Handled in `loadDependencies`, so no warning should be shown.
           break;
-        case pdf.OPS.setLeading:
-          if(debug) console.log('setLeading');
-          //this.setLeading(args);
-          break;
-        case pdf.OPS.setLeadingMoveText:
-          if(debug) console.log('setLeadingMoveText');
-          //this.setLeadingMoveText(args[0], args[1]);
-          break;
-        case pdf.OPS.setCharSpacing:
-          //this.setCharSpacing(args[0]);
-          if (debug) console.log('setCharSpacing');
-          break;
-        case pdf.OPS.setWordSpacing:
-          if (debug) console.log('setWordSpacing');
-          //this.setWordSpacing(args[0]);
-          break;
-        case pdf.OPS.setHScale:
-          //this.setHScale(args[0]);
-          if (debug) console.log('setHScale');
-          break;
-        case pdf.OPS.setTextRise:
-          if (debug) console.log('setTextRise');
-          //this.setTextRise(args[0]);
-          break;
-        case pdf.OPS.setTextRenderingMode:
-          if (debug) console.log('setTextRenderingMode');
-          //this.setTextRenderingMode(args[0]);
-          break;
         case pdf.OPS.setLineWidth:
           if (debug) console.log('setLineWidth');
           //this.setLineWidth(args[0]);
@@ -322,11 +294,6 @@ class GoldDigger {
         case pdf.OPS.closeEOFillStroke:
           if(debug) console.log('closeEOFillStroke');
           //this.closeEOFillStroke();
-          break;
-        case pdf.OPS.nextLine:
-          if(debug) console.log('nextLine');
-          console.log('\r\n');
-          //this.nextLine();
           break;
         case pdf.OPS.transform:
           if(debug) console.log('transform');

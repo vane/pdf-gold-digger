@@ -74,12 +74,12 @@ class ExtractText {
   /**
    * Gets FontObject from page information when pdf.OPS.setFont
    * @param details - arguments from pdf.OPS.setFont
-   * @param page current pdf page
+   * @param pageData - pdf page data
    * @param dependencies - loaded font information
    * @returns {FontObject} parsed font information
    */
-  getFont(details, page, dependencies) {
-    const fontObj = page.commonObjs.get(details[0]);
+  getFont(details, pageData, dependencies) {
+    const fontObj = pageData.commonObjs.get(details[0]);
     const font = new Model.FontObject()
     font.setSize(details[1]);
     font.weight = fontObj.black ? (fontObj.bold ? 'bolder' : 'bold') :

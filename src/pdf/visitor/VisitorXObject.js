@@ -10,7 +10,7 @@ class VisitorXObject extends VisitorBase {
    * pdf.OPS.setTextMatrix
    */
   setTextMatrix(args) {
-    if (this.debug) console.log('setTextMatrix');
+    if (this.config.debug) console.log('setTextMatrix');
     if (this.config.skip) return;
     /*const a = args[0], b = args[1], c = args[2], d = args[3], e = args[4], f = args[5];
     const el = this.currentObject.getLine();
@@ -23,7 +23,7 @@ class VisitorXObject extends VisitorBase {
    * pdf.OPS.paintFormXObjectBegin
    */
   paintFormXObjectBegin(args) {
-    if(this.debug) console.log('paintFormXObjectBegin');
+    if (this.config.debug) console.log('paintFormXObjectBegin');
     if(!this.config.paintFormXObject) {
       this.config.skip = true;
     }
@@ -33,7 +33,7 @@ class VisitorXObject extends VisitorBase {
    * pdf.OPS.paintFormXObjectEnd
    */
   paintFormXObjectEnd(args) {
-    if(this.debug) console.log('paintFormXObjectEnd');
+    if (this.config.debug) console.log('paintFormXObjectEnd');
     this.config.skip = false;
   }
 }
