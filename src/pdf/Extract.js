@@ -1,4 +1,4 @@
-const FontObject = require('./model/FontObject');
+const Model = require('./model');
 const Constraints = require('./Constraints');
 const util = require('pdfjs-dist/lib/shared/util');
 
@@ -12,7 +12,7 @@ class ExtractText {
    * @param line - TextLine
    * @returns {string} extracted text
    */
-  getText(glyphs, line) {
+  getText(glyphs, line, position) {
     let partial = "";
     let x = 0;
     const font = line.getFont();
@@ -30,7 +30,7 @@ class ExtractText {
       }
       const spacing = (glyph.isSpace ? line.wordSpacing : 0) + line.charSpacing;
       if(spacing > 0) {
-        throw Error("Not implemented !")
+        console.warn(`Not implemented spacing : ${spacing} !`)
       }
       // TODO use glyph font character
       partial += glyph.unicode;
@@ -38,7 +38,19 @@ class ExtractText {
       // const widthAdvanceScale = font.size * line.fontMatrix[0];
       const widthAdvanceScale = font.size * Constraints.FONT_IDENTITY_MATRIX[0];
       const charWidth = width * widthAdvanceScale + spacing * font.direction;
+      if (!glyph.isInFont && !font.missingFile) {
+        x += charWidth;
+        continue;
+      }
+      //need global x/y position
+      /*current.xcoords.push(current.x + x * textHScale);
+      current.tspan.textContent += character;
       x += charWidth;
+      if (vertical) {
+        current.y -= x * textHScale;
+      } else {
+        current.x += x * textHScale;
+      }*/
     }
     return partial;
   }
@@ -68,7 +80,7 @@ class ExtractText {
    */
   getFont(details, page, dependencies) {
     const fontObj = page.commonObjs.get(details[0]);
-    const font = new FontObject()
+    const font = new Model.FontObject()
     font.setSize(details[1]);
     font.weight = fontObj.black ? (fontObj.bold ? 'bolder' : 'bold') :
       (fontObj.bold ? 'bold' : 'normal');

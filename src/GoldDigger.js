@@ -21,7 +21,6 @@ class GoldDigger {
 
   constructor(config) {
     this.config = config;
-    this.visitor = new Visitor(config);
     this.formatter = new Formatter(config);
   }
 
@@ -83,8 +82,9 @@ class GoldDigger {
     // load dependencies
     const dependencies = await this.loadDependencies(page, operatorList);
     const opTree = this.convertOpList(operatorList);
-    const output = this.executeOpTree(opTree, page, dependencies);
-    return output;
+    const visitor = new Visitor(this.config, page, dependencies);
+    this.executeOpTree(opTree, visitor);
+    return visitor.objectList;
   }
 
   /**
@@ -176,8 +176,8 @@ class GoldDigger {
    * @param dependencies - loadDependencies data
    * @returns {Array} PDFObject array
    */
-  executeOpTree(opTree, page, dependencies) {
-    const debug = this.visitor.debug;
+  executeOpTree(opTree, visitor) {
+    const debug = visitor.debug;
     for (const opTreeElement of opTree) {
       const fn = opTreeElement.fn;
       const fnId = opTreeElement.fnId;
@@ -342,15 +342,14 @@ class GoldDigger {
           break;
         case 92:
           if(debug) console.log('executeOpTree');
-          this.executeOpTree(opTreeElement.items, page, dependencies);
+          this.executeOpTree(opTreeElement.items, visitor);
           //this.group(opTreeElement.items);
           break;
         default:
-          this.visitor.visit(fn, args, page, dependencies);
+          visitor.visit(fn, args, visitor);
           break;
       }
     }
-    return this.visitor.objectList;
   }
 }
 

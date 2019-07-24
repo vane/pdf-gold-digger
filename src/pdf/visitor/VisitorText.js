@@ -1,25 +1,28 @@
 const Extract = require('./../Extract');
-const TextObject = require('./../model/TextObject');
+const Model = require('./../model');
 const VisitorBase = require('./VisitorBase');
+const Geometry = require('../model/Geometry');
 
 /**
  * Visits text data while parsing pdf
  */
 class VisitorText extends VisitorBase {
-  constructor(config, debug, objectList) {
-    super(config, debug, objectList);
+  constructor(config, page, dependencies, debug, objectList) {
+    super(config, page, dependencies, debug, objectList);
     this.txt = new Extract.ExtractText();
     this.currentObject;
     this.currentFont;
+    this.position = new Geometry.Point();
   }
 
   /**
    * pdf.OPS.beginText
    */
-  beginText(args, page, dependencies) {
+  beginText(args) {
     if (this.debug) console.log('beginText');
     if (this.config.skip) return;
-    this.currentObject = new TextObject();
+    this.currentObject = new Model.TextObject();
+    // SHOULD determine if new line while extracting text cause it can begin in any time
     this.currentObject.newLine();
     this.objectList.push(this.currentObject);
   }
@@ -27,17 +30,16 @@ class VisitorText extends VisitorBase {
   /**
    * pdf.OPS.setFont
    */
-  setFont(args, page, dependencies) {
+  setFont(args) {
     if (this.debug) console.log('setFont');
     if (this.config.skip) return;
-    this.currentFont = this.txt.getFont(args, page, dependencies)
-    this.shouldNew = true;
+    this.currentFont = this.txt.getFont(args, this.page, this.dependencies)
   }
 
   /**
    * pdf.OPS.showText
    */
-  showText(args, page, dependencies) {
+  showText(args) {
     if (this.debug) console.log("showText");
     if (this.config.skip) return;
     const el = this.currentObject.getLine();
@@ -48,27 +50,27 @@ class VisitorText extends VisitorBase {
     el.setFont(this.currentFont)
     const el2 = el.getText();
     // first text element workaround
-    const txt = this.txt.getText(args[0], el2)+" ";
+    const txt = this.txt.getText(args[0], el2, this.position)+" ";
     el2.setText(txt);
   }
 
   /**
    * pdf.OPS.showSpacedText
    */
-  showSpacedText(args, page, dependencies) {
+  showSpacedText(args) {
     if (this.debug) console.log("showSpacedText");
     if (this.config.skip) return;
     const el = this.currentObject.getLine();
     el.setFont(this.currentFont)
     const el2 = el.getText();
     // first text element workaround
-    el2.setText(this.txt.getText(args[0], el2)+" ");
+    el2.setText(this.txt.getText(args[0], el2, this.position)+" ");
   }
 
   /**
    * pdf.OPS.endText
    */
-  endText(args, page, dependencies) {
+  endText(args) {
     if (this.debug) console.log('endText');
     if (this.config.skip) return;
     this.currentObject = null;
@@ -77,7 +79,7 @@ class VisitorText extends VisitorBase {
   /**
    * pdf.OPS.moveText
    */
-  moveText(args, page, dependencies) {
+  moveText(args) {
     if (this.debug) console.log('moveText');
     if (this.config.skip) return;
     let el = this.currentObject.getLine();
@@ -85,7 +87,7 @@ class VisitorText extends VisitorBase {
     const newLine = el.isNewLine(y);
     // new line
     if(newLine) {
-      if (this.debug) el.printText();
+      el.printText();
       el = this.currentObject.newLine();
     }
     // create new text element always after new line

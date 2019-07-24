@@ -11,13 +11,15 @@ const FN_IMAGE = ['paintJpegXObject', 'paintImageXObject', 'paintInlineImageXObj
  */
 class Visitor {
 
-  constructor (config, debug) {
+  constructor (config, page, dependencies, debug) {
     this.objectList = [];
     this.config = config;
     this.config.skip = false;
-    this.txt = new VisitorText(config, debug, this.objectList);
-    this.xobject = new VisitorXObject(config, debug, this.objectList);
-    this.image = new VisitorImage(config, debug, this.objectList);
+    this.page = page;
+    this.dependencies = dependencies;
+    this.txt = new VisitorText(config, page, dependencies, debug, this.objectList);
+    this.xobject = new VisitorXObject(config, page, dependencies, debug, this.objectList);
+    this.image = new VisitorImage(config, page, dependencies, debug, this.objectList);
     this.debug = config.debug;
   }
 
@@ -28,13 +30,13 @@ class Visitor {
    * @param page - pdf page
    * @param dependencies - loaded pdf dependencies
    */
-  visit(fname, args, page, dependencies) {
+  visit(fname, args) {
     if(FN_TEXT.indexOf(fname) > -1) {
-      this.txt[fname](args, page, dependencies);
+      this.txt[fname](args);
     } else if(FN_XOBJECT.indexOf(fname) > -1) {
-      this.xobject[fname](args, page, dependencies);
+      this.xobject[fname](args);
     } else if (FN_IMAGE.indexOf(fname) > -1) {
-      this.image[fname](args, page, dependencies);
+      this.image[fname](args);
     } else {
       console.warn(`Unimplemented operator ${fname}`);
     }
