@@ -61,6 +61,7 @@ class ExtractText {
       }*/
     }
     line.setText(partial+" ");
+    el.printText();
   }
 
   /**

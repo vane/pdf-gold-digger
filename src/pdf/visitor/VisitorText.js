@@ -77,6 +77,7 @@ class VisitorText extends VisitorBase {
   moveText(args) {
     if (this.config.debug) console.log('moveText');
     if (this.config.skip) return;
+    /*
     let el = this.page.currentObject.getLine();
     const x = args[0], y = args[1];
     const newLine = el.isNewLine(y);
@@ -91,6 +92,9 @@ class VisitorText extends VisitorBase {
     el2.y = this.page.currentObject.y += y;
     // assign to calculate bounding box
     el.setBBox(this.page.currentObject.x, this.page.currentObject.y);
+     */
+    this.page.currentObject.x = args[0];
+    this.page.currentObject.y = args[1];
   }
 
   /**
