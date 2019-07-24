@@ -4,15 +4,18 @@ pdf-gold-digger
 Pdf information extraction library based on [pdf.js](https://mozilla.github.io/pdf.js/)
 and [node.js](https://nodejs.org).
 
-### Install
+## Install
 ```npm install -g pdf-gold-digger```
 
-
-### Usage
-```pdfdig -i some_file.pdf```  
-for help use :  
-```pdfdig -h```
+## Usage
 ```bash
+pdfdig -i some_file.pdf
+```  
+
+## Avaliable commands
+
+```bash
+pdfdig -h
 ex. pdfdig -i input-file -o output_directory -f json
   
   --input  or  -i   pdf file location (required)
@@ -22,36 +25,35 @@ ex. pdfdig -i input-file -o output_directory -f json
   --help   or  -h   display this help message
 ```
 
-
-#### or test by clonning repository
-```git clone https://github.com/vane/pdf-gold-digger```    
-then run   
-```sh demo.sh```  
+## Advanced usage
+```bash
+git clone https://github.com/vane/pdf-gold-digger
+sh demo.sh
+```
 and see results in ```out``` directory 
                             
-
-### Documentation url
+## Documentation
 [pdf-gold-digger](https://vane.pl/pdf-gold-digger/)
 
-
-## Work in progress
-
-### Supports:
+## Features:
 - extract text
   - separate each page
   - separate each line
   - separate font information
-  - bounding box position (probably buggy now)
 - extract images
-- output to text ```-f text (default)```
-- output to json ```-f json```
+- output formats
+  - text ```-f text (default)```
+  - json ```-f json```
 - specify output directory
 
-### TODO:
+## TODO:
+- extract text
+  - bounding box position
 - load pdf from remote location
   - from url    
 - output to xml format
 - output to html format
+- output to markdown format
 - output to zip
 - extract font
 - extract tables
