@@ -14,16 +14,13 @@ const FN_IMAGE = ['paintJpegXObject', 'paintImageXObject', 'paintInlineImageXObj
  */
 class Visitor {
 
-  constructor (config, pageData, dependencies) {
-    this.objectList = [];
+  constructor (config, data, dependencies) {
     this.config = config;
     this.config.skip = false;
-    this.pageData = pageData;
-    this.page = new Model.PdfPage();
-    this.dependencies = dependencies;
-    this.txt = new v.VisitorText(config, pageData, dependencies, this.objectList, this.page);
-    this.xobject = new v.VisitorXObject(config, pageData, dependencies, this.objectList);
-    this.image = new v.VisitorImage(config, pageData, dependencies, this.objectList);
+    this.page = new Model.PdfPage(data, dependencies);
+    this.txt = new v.VisitorText(config, this.page);
+    this.xobject = new v.VisitorXObject(config, this.page);
+    this.image = new v.VisitorImage(config, this.page);
   }
 
   /**

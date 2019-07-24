@@ -1,11 +1,12 @@
 const PdfObject = require('./PdfObject');
 
 class PdfPage extends PdfObject {
-  constructor () {
+  constructor (data, dependencies) {
     super();
-    this.fontSizeScale = 1;
-    this.fontWeight = 'normal';
-    this.fontSize = 0;
+    this.data = data;
+    this.dependencies = dependencies;
+    this.objectList = [];
+    // font
     this.leading = 0;
 
     this.textMatrixScale = 1;
@@ -15,6 +16,14 @@ class PdfPage extends PdfObject {
     this.wordSpacing = 0;
     this.textHScale = 1;
     this.textRise = 0;
+    
+    this.currentObject;
+    this.currentFont;
+  }
+
+  setCurrentObject(obj) {
+    this.currentObject = obj
+    this.objectList.push(obj);
   }
 }
 

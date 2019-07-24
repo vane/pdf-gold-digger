@@ -7,9 +7,8 @@ const FileManager = require('../FileManager');
  */
 class VisitorImage extends VisitorBase {
 
-  constructor (config, pageData, dependencies, objectList) {
-    super(config, pageData, dependencies, objectList);
-    // this.debug = true;
+  constructor (config, page) {
+    super(config, page);
     FileManager.mkdirNotExists(`${this.config.outputDir}/img`);
   }
 
@@ -30,7 +29,7 @@ class VisitorImage extends VisitorBase {
   paintImageXObject(args) {
     if (this.config.debug) console.log('paintImageXObject');
     // if (this.config.skip) return;
-    const imgData = page.objs.get(args[0]);
+    const imgData = this.page.data.objs.get(args[0]);
     this.paintInlineImageXObject([imgData, args[0]]);
   }
 
@@ -50,11 +49,11 @@ class VisitorImage extends VisitorBase {
     if (this.config.debug) console.log('paintInlineImageXObject');
     // if (this.config.skip) return;
     const imgData = args[0];
-    if (this.debug) console.log(`Image : ${imgData.width}x${imgData.height}`);
+    if (this.config.debug) console.log(`Image : ${imgData.width}x${imgData.height}`);
     // TODO imlement mask
     const mask = false;
     const imgBinary = pdfjs.convertImgDataToPng(imgData, this.forceDataSchema, !!mask);
-    const fpath = `${this.config.outputDir}/img/page.${this.pageData.pageIndex}.${args[1]}.png`
+    const fpath = `${this.config.outputDir}/img/page.${this.page.data.pageIndex}.${args[1]}.png`
     await FileManager.saveFileAsync(fpath, imgBinary);
   }
 }

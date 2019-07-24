@@ -84,7 +84,7 @@ class GoldDigger {
     const opTree = this.convertOpList(operatorList);
     const visitor = new Visitor(this.config, pageData, dependencies);
     this.executeOpTree(opTree, visitor);
-    return visitor.objectList;
+    return visitor.page.objectList;
   }
 
   /**

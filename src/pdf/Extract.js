@@ -9,10 +9,18 @@ class ExtractText {
   /**
    * Return text from glyphs array
    * @param glyphs - glyphs from pdf.OPS.showText, pdf.OPS.showSpacedText
-   * @param line - TextLine
-   * @returns {string} extracted text
+   * @param page - PdfPage object @see PdfPage
    */
-  getText(glyphs, line, position) {
+  setText(glyphs, page) {
+    // MOVED from VisitorText
+    const el = page.currentObject.getLine();
+    // -i ../../github.com/pdf.js/test/pdfs/ZapfDingbats.pdf -f text null pointer
+    if(!el.getText()) {
+      el.newText();
+    }
+    el.setFont(page.currentFont)
+    const line = el.getText();
+    // END
     let partial = "";
     let x = 0;
     const font = line.getFont();
@@ -52,7 +60,7 @@ class ExtractText {
         current.x += x * textHScale;
       }*/
     }
-    return partial;
+    line.setText(partial+" ");
   }
 
   /**
@@ -74,24 +82,22 @@ class ExtractText {
   /**
    * Gets FontObject from page information when pdf.OPS.setFont
    * @param details - arguments from pdf.OPS.setFont
-   * @param pageData - pdf page data
-   * @param dependencies - loaded font information
-   * @returns {FontObject} parsed font information
+   * @param page - pdf page @see PdfPage
    */
-  getFont(details, pageData, dependencies) {
-    const fontObj = pageData.commonObjs.get(details[0]);
+  setFont(details, page) {
+    const fontObj = page.data.commonObjs.get(details[0]);
     const font = new Model.FontObject()
     font.setSize(details[1]);
     font.weight = fontObj.black ? (fontObj.bold ? 'bolder' : 'bold') :
       (fontObj.bold ? 'bold' : 'normal');
     font.style = fontObj.italic ? 'italic' : 'normal';
-    const family = this.getFontFamily(fontObj.loadedName, dependencies);
+    const family = this.getFontFamily(fontObj.loadedName, page.dependencies);
     if(family) {
       font.family = family.name;
     } else {
       font.family = fontObj.loadedName;
     }
-    return font;
+    page.currentFont = font;
   }
 }
 

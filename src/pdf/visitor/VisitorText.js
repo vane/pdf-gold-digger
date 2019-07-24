@@ -7,12 +7,9 @@ const Geometry = require('../model/Geometry');
  * Visits text data while parsing pdf
  */
 class VisitorText extends VisitorBase {
-  constructor(config, pageData, dependencies, objectList, page) {
-    super(config, pageData, dependencies, objectList);
-    this.page = page;
+  constructor(config, page) {
+    super(config, page);
     this.txt = new Extract.ExtractText();
-    this.currentObject;
-    this.currentFont;
   }
 
   /**
@@ -21,10 +18,10 @@ class VisitorText extends VisitorBase {
   beginText(args) {
     if (this.config.debug) console.log('beginText');
     if (this.config.skip) return;
-    this.currentObject = new Model.TextObject();
+    this.page.setCurrentObject(new Model.TextObject());
     // SHOULD determine if new line while extracting text cause it can begin in any time
-    this.currentObject.newLine();
-    this.objectList.push(this.currentObject);
+    this.page.currentObject.newLine();
+
   }
 
   /**
@@ -53,7 +50,7 @@ class VisitorText extends VisitorBase {
   setFont(args) {
     if (this.config.debug) console.log('setFont');
     if (this.config.skip) return;
-    this.currentFont = this.txt.getFont(args, this.pageData, this.dependencies)
+    this.txt.setFont(args, this.page)
   }
 
   /**
@@ -62,16 +59,7 @@ class VisitorText extends VisitorBase {
   showText(args) {
     if (this.config.debug) console.log("showText");
     if (this.config.skip) return;
-    const el = this.currentObject.getLine();
-    // -i ../../github.com/pdf.js/test/pdfs/ZapfDingbats.pdf -f text null pointer
-    if(!el.getText()) {
-      el.newText();
-    }
-    el.setFont(this.currentFont)
-    const el2 = el.getText();
-    // first text element workaround
-    const txt = this.txt.getText(args[0], el2, this.position)+" ";
-    el2.setText(txt);
+    this.txt.setText(args[0], this.page)
   }
 
   /**
@@ -80,11 +68,7 @@ class VisitorText extends VisitorBase {
   showSpacedText(args) {
     if (this.config.debug) console.log("showSpacedText");
     if (this.config.skip) return;
-    const el = this.currentObject.getLine();
-    el.setFont(this.currentFont)
-    const el2 = el.getText();
-    // first text element workaround
-    el2.setText(this.txt.getText(args[0], el2, this.position)+" ");
+    this.txt.setText(args[0], this.page);
   }
 
   /**
@@ -93,20 +77,20 @@ class VisitorText extends VisitorBase {
   moveText(args) {
     if (this.config.debug) console.log('moveText');
     if (this.config.skip) return;
-    let el = this.currentObject.getLine();
+    let el = this.page.currentObject.getLine();
     const x = args[0], y = args[1];
     const newLine = el.isNewLine(y);
     // new line
     if(newLine) {
       el.printText();
-      el = this.currentObject.newLine();
+      el = this.page.currentObject.newLine();
     }
     // create new text element always after new line
     const el2 = el.newText();
-    el2.x = this.currentObject.x += x;
-    el2.y = this.currentObject.y += y;
+    el2.x = this.page.currentObject.x += x;
+    el2.y = this.page.currentObject.y += y;
     // assign to calculate bounding box
-    el.setBBox(this.currentObject.x, this.currentObject.y);
+    el.setBBox(this.page.currentObject.x, this.page.currentObject.y);
   }
 
   /**
@@ -115,7 +99,7 @@ class VisitorText extends VisitorBase {
   endText(args) {
     if (this.debug) console.log('endText');
     if (this.config.skip) return;
-    this.currentObject = null;
+    this.page.currentObject = null;
   }
 
   /**
@@ -149,7 +133,9 @@ class VisitorText extends VisitorBase {
     if (this.debug) console.log('setWordSpacing');
     if (this.config.skip) return;
     const a = args[0], b = args[1], c = args[2], d = args[3], e = args[4], f = args[5];
-    this.currentObject.textMatrix = this.currentObject.lineMatrix = [a, b, c, d, e, f];
+    this.page.currentObject.textMatrix = this.page.currentObject.lineMatrix = [a, b, c, d, e, f];
+    this.page.currentObject.x = 0;
+    this.page.currentObject.y = 0;
   }
 
   /**
