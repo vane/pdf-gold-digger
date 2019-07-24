@@ -59,7 +59,7 @@ class VisitorText extends VisitorBase {
   showText(args) {
     if (this.config.debug) console.log("showText");
     if (this.config.skip) return;
-    this.txt.setText(args[0], this.page)
+    this.txt.showText(args[0], this.page)
   }
 
   /**

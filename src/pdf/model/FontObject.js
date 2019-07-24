@@ -9,6 +9,7 @@ class FontObject {
     this.style = null;
     this.family = null;
     this.direction = 1;
+    this.vertical = false;
   }
 
   /**

@@ -11,7 +11,7 @@ class ExtractText {
    * @param glyphs - glyphs from pdf.OPS.showText, pdf.OPS.showSpacedText
    * @param page - PdfPage object @see PdfPage
    */
-  setText(glyphs, page) {
+  showText(glyphs, page) {
     // MOVED from VisitorText
     const el = page.currentObject.getLine();
     // -i ../../github.com/pdf.js/test/pdfs/ZapfDingbats.pdf -f text null pointer
@@ -53,12 +53,13 @@ class ExtractText {
       //need global x/y position
       /*current.xcoords.push(current.x + x * textHScale);
       current.tspan.textContent += character;
-      x += charWidth;
-      if (vertical) {
-        current.y -= x * textHScale;
+      */
+      page.currentObject.x += charWidth;
+      if (font.vertical) {
+        page.currentObject.y -= x * textHScale;
       } else {
-        current.x += x * textHScale;
-      }*/
+        page.currentObject.x += x * textHScale;
+      }
     }
     line.setText(partial+" ");
     el.printText();
@@ -98,6 +99,7 @@ class ExtractText {
     } else {
       font.family = fontObj.loadedName;
     }
+    font.vertical = fontObj.vertical;
     page.currentFont = font;
   }
 }
