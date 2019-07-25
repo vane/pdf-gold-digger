@@ -1,7 +1,6 @@
 const Extract = require('./../Extract');
 const Model = require('./../model');
 const VisitorBase = require('./VisitorBase');
-const Geometry = require('../model/Geometry');
 
 /**
  * Visits text data while parsing pdf
