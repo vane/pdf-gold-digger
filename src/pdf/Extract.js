@@ -13,25 +13,29 @@ class ExtractText {
    */
   showText(glyphs, page) {
     // MOVED from VisitorText
-    const el = page.currentObject.getLine();
+    let lineList = page.currentObject.getLine();
     // -i ../../github.com/pdf.js/test/pdfs/ZapfDingbats.pdf -f text null pointer
-    if(!el.getText()) {
-      el.newText();
+    const line = new Model.TextFont();
+    line.font = page.currentFont;
+    // copy from previous line
+    const lastLine = lineList.getLastFontText()
+    if(lastLine) {
+      line.wordSpacing = lastLine.wordSpacing;
+      line.charSpacing = lastLine.charSpacing;
     }
-    el.setFont(page.currentFont)
-    const line = el.getText();
+    let startX = page.x;
+    let startY = page.y;
     // END
     let partial = "";
     let x = 0;
-    const font = line.getFont();
     for(const glyph of glyphs) {
       if (glyph === null) {
         // Word break
         x += font.direction * line.wordSpacing;
         continue;
       } else if (util.isNum(glyph)) {
-        x += -glyph * font.size * 0.001;
-        if (glyph === -250) {
+        x += -glyph * line.font.size * 0.001;
+        if (glyph <= -150) {
           partial += " ";
         }
         continue;
@@ -44,25 +48,30 @@ class ExtractText {
       partial += glyph.unicode;
       const width = glyph.width;
       // const widthAdvanceScale = font.size * line.fontMatrix[0];
-      const widthAdvanceScale = font.size * Constraints.FONT_IDENTITY_MATRIX[0];
-      const charWidth = width * widthAdvanceScale + spacing * font.direction;
-      if (!glyph.isInFont && !font.missingFile) {
+      const widthAdvanceScale = line.font.size * Constraints.FONT_IDENTITY_MATRIX[0];
+      const charWidth = width * widthAdvanceScale + spacing * line.font.direction;
+      if (!glyph.isInFont && !line.font.missingFile) {
         x += charWidth;
         continue;
       }
-      //need global x/y position
-      /*current.xcoords.push(current.x + x * textHScale);
-      current.tspan.textContent += character;
-      */
-      page.currentObject.x += charWidth;
-      if (font.vertical) {
-        page.currentObject.y -= x * textHScale;
+      line.x = page.x += charWidth;
+      if (line.font.vertical) {
+        page.y -= x * page.textHScale;
       } else {
-        page.currentObject.x += x * textHScale;
+        page.x += x * page.textHScale;
       }
     }
+    line.x = page.x;
+    line.y = page.y;
     line.setText(partial+" ");
-    el.printText();
+    const isNew = lineList.y !== 0 && Math.abs(line.y - lineList.y) > line.font.size
+    if(isNew) {
+      lineList.printText()
+      lineList = page.currentObject.newLine()
+    }
+    lineList.x = startX;
+    lineList.y = startY;
+    lineList.addTextFont(line);
   }
 
   /**

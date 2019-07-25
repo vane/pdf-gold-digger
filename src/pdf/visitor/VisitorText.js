@@ -77,24 +77,13 @@ class VisitorText extends VisitorBase {
   moveText(args) {
     if (this.config.debug) console.log('moveText');
     if (this.config.skip) return;
-    /*
-    let el = this.page.currentObject.getLine();
-    const x = args[0], y = args[1];
-    const newLine = el.isNewLine(y);
-    // new line
-    if(newLine) {
-      el.printText();
-      el = this.page.currentObject.newLine();
+    if(this.page.x === 0 && this.page.y === 0) {
+      this.page.x = args[0];
+      this.page.y = args[1];
+    } else {
+      this.page.x = args[0]
+      this.page.y += args[1]
     }
-    // create new text element always after new line
-    const el2 = el.newText();
-    el2.x = this.page.currentObject.x += x;
-    el2.y = this.page.currentObject.y += y;
-    // assign to calculate bounding box
-    el.setBBox(this.page.currentObject.x, this.page.currentObject.y);
-     */
-    this.page.currentObject.x = args[0];
-    this.page.currentObject.y = args[1];
   }
 
   /**

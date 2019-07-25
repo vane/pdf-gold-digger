@@ -6,26 +6,10 @@ const PdfObject = require('./../PdfObject');
 class TextFont extends PdfObject {
   constructor() {
     super();
-    this._font = null;
+    this.font = null;
     this._text = "";
     this.charSpacing = 0;
     this.wordSpacing = 0;
-  }
-
-  /**
-   * Getter for {FontObject}
-   * @returns {null|FontObject}
-   */
-  getFont() {
-    return this._font;
-  }
-
-  /**
-   * Setter for {FontObject}
-   * @param font {FontObject}
-   */
-  setFont(font) {
-    this._font = font;
   }
 
   /**
