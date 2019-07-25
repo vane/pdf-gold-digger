@@ -3,6 +3,7 @@ const TextFont = require('./../text/TextFont');
 
 /**
  * Represents text line in pdf file
+ * @extends {PdfObject}
  */
 class TextLine extends PdfObject {
   constructor() {
@@ -14,14 +15,14 @@ class TextLine extends PdfObject {
 
   /**
    * Adds line with font to text
-   * @param line @see {TextFont}
+   * @param {TextFont} line
    */
   addTextFont(line) {
     this._textFonts.push(line);
   }
 
   /**
-   * Get last TextFont
+   * Get last {@link TextFont}
    * @returns {TextFont}
    */
   getLastFontText() {
@@ -40,8 +41,8 @@ class TextLine extends PdfObject {
   }
 
   /**
-   * Get Array of all {TextFont} data inside this text line
-   * @returns {Array} of {TextFont}
+   * Get Array of all {@link TextFont} data inside this text line
+   * @returns {Array} of {@link TextFont}
    */
   getData() {
     return this._textFonts;

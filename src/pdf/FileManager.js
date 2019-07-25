@@ -21,7 +21,11 @@ const mkdirNotExists = (path) => {
     fs.mkdirSync(path);
   }
 }
-
+/**
+ * Reads directory
+ * @param {string} path - directory path
+ * @returns {string[]} - directory listing
+ */
 const readdirSync = (path) => {
   return fs.readdirSync(path)
 }

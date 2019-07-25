@@ -2,6 +2,12 @@
  * Format PDF into json data
  */
 class FormatterJSON {
+  /**
+   * See {@link Formatter}
+   * @param doc
+   * @param metadata
+   * @returns {string}
+   */
   start(doc, metadata) {
     const meta = JSON.stringify(metadata)
     return `{
@@ -12,8 +18,8 @@ class FormatterJSON {
   }
 
   /**
-   * Formats {TextObject} to JSON serializable object
-   * @param textObject {TextObject}
+   * Formats {@link TextObject} to JSON serializable object
+   * @param  {TextObject} textObject
    * @returns {object}
    */
   formatTextObject(textObject) {
@@ -26,8 +32,8 @@ class FormatterJSON {
   }
 
   /**
-   * Formats {TextLine} to JSON serializable object
-   * @param textLine {TextLine}
+   * Formats {@link TextLine} to JSON serializable object
+   * @param {TextLine} textLine
    * @returns {object}
    */
   formatTextLine(textLine) {
@@ -47,8 +53,8 @@ class FormatterJSON {
   }
 
   /**
-   * Formats {TextFont} to JSON serializable object
-   * @param textFont {TextFont}
+   * Formats {@link TextFont} to JSON serializable object
+   * @param {TextFont} textFont
    * @returns {object}
    */
   formatTextFont(textFont) {
@@ -67,7 +73,7 @@ class FormatterJSON {
   }
 
   /**
-   * See {Formatter}
+   * See {@link Formatter}
    * @param page
    * @param data
    * @param last
@@ -87,7 +93,7 @@ class FormatterJSON {
   }
 
   /**
-   * See {Formatter}
+   * See {@link Formatter}
    * @returns {string}
    */
   end() {

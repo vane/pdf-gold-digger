@@ -2,6 +2,7 @@ const PdfObject = require('./../PdfObject');
 
 /**
  * Represents Font information in pdf file
+ * @extends {PdfObject}
  */
 class TextFont extends PdfObject {
   constructor() {
@@ -25,6 +26,11 @@ class TextFont extends PdfObject {
     }
   }
 
+  /**
+   * Heuristic method to check if glyph number is space
+   * @param {number} glyph - numeric size
+   * @returns {boolean} - flag true if it's space false if it's not
+   */
   isSpace(glyph) {
     if(-glyph >= this.font.spaceWidth) {
       return true;
@@ -43,17 +49,6 @@ class TextFont extends PdfObject {
    */
   getText() {
     return this._text;
-  }
-
-  /**
-   * Check if provided {FontObject} is equal to existing one
-   * @param font {FontObject}
-   * @returns {boolean}
-   */
-  equals(font) {
-    return this.font === font.font
-      && this.charSpacing === font.charSpacing
-      && this.wordSpacing === font.wordSpacing;
   }
 }
 

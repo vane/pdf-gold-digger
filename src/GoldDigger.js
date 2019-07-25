@@ -19,8 +19,15 @@ class GoldDiggerError extends Error{
  */
 class GoldDigger {
 
+  /**
+   * Constructor
+   * @param {object} config - configuration
+   */
   constructor(config) {
     this.config = config;
+    /**
+     * @type {Formatter}
+     */
     this.formatter = new Formatter(config);
   }
 
@@ -72,7 +79,7 @@ class GoldDigger {
   /**
    * Process page
    * @param pageData - pdf page
-   * @param pageNum - page number
+   * @param {number} pageNum - page number
    */
   async digPage(pageData, pageNum) {
 
@@ -172,9 +179,7 @@ class GoldDigger {
    * Process pdf file format
    * Based on (SVGGraphics)
    * @param opTree - pdf tree of information
-   * @param page - pdf page
-   * @param dependencies - loadDependencies data
-   * @returns {Array} PDFObject array
+   * @param {Visitor} visitor - class for parsing incoming tags
    */
   executeOpTree(opTree, visitor) {
     const debug = visitor.debug;

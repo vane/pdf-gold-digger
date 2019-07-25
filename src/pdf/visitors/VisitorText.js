@@ -4,6 +4,7 @@ const VisitorBase = require('./VisitorBase');
 
 /**
  * Visits text data while parsing pdf
+ * @extends {VisitorBase}
  */
 class VisitorText extends VisitorBase {
   constructor(config, page) {
@@ -138,7 +139,10 @@ class VisitorText extends VisitorBase {
     if (this.debug) console.log('setTextRise');
     if (this.config.skip) return;
   }
-
+  
+  /**
+   * pdf.OPS.setTextRenderingMode
+   */
   setTextRenderingMode(args) {
     if (this.debug) console.log('setTextRenderingMode');
     if (this.config.skip) return;

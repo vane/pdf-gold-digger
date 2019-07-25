@@ -1,4 +1,4 @@
-const v = require('./visitor/index');
+const v = require('./visitors');
 const Model = require('./model');
 
 const FN_TEXT = ['beginText', 'setFont', 'showText',
@@ -6,7 +6,7 @@ const FN_TEXT = ['beginText', 'setFont', 'showText',
   'setLeading', 'setLeadingMoveText', 'setCharSpacing',
   'setWordSpacing', 'setHScale', 'setTextMatrix',
   'setTextRise', 'setTextRenderingMode', 'nextLine'];
-const FN_XOBJECT = ['setTextMatrix', 'paintFormXObjectBegin', 'paintFormXObjectEnd'];
+const FN_XOBJECT = ['paintFormXObjectBegin', 'paintFormXObjectEnd'];
 const FN_IMAGE = ['paintJpegXObject', 'paintImageXObject', 'paintInlineImageXObject', 'paintImageMaskXObject'];
 
 /**
@@ -14,12 +14,30 @@ const FN_IMAGE = ['paintJpegXObject', 'paintImageXObject', 'paintInlineImageXObj
  */
 class Visitor {
 
+  /**
+   * Constructor
+   * @param {object} config - application configuration
+   * @param data - pdf data
+   * @param dependencies - pdf loaded dependencies
+   */
   constructor (config, data, dependencies) {
     this.config = config;
     this.config.skip = false;
+    /**
+     * @type {PdfPage}
+     */
     this.page = new Model.PdfPage(data, dependencies);
+    /**
+     * @type {VisitorText}
+     */
     this.txt = new v.VisitorText(config, this.page);
+    /**
+     * @type {VisitorXObject}
+     */
     this.xobject = new v.VisitorXObject(config, this.page);
+    /**
+     * @type {VisitorImage}
+     */
     this.image = new v.VisitorImage(config, this.page);
   }
 

@@ -1,18 +1,23 @@
-const FormatterJSON = require('./formatter/FormatterJSON');
-const FormatterXML = require('./formatter/FormatterXML');
-const FormatterText = require('./formatter/FormatterText');
+const f = require('./formatters');
 
 /**
  * Formats PDF to desired output
  */
 class Formatter {
 
+  /**
+   * Constructor
+   * @param config
+   */
   constructor(config) {
     this.debug = config.debug;
+    /**
+     * @type {{json: FormatterJSON, xml: FormatterXML, text: FormatterText}}
+     */
     this.formatters = {
-      json: new FormatterJSON(),
-      xml: new FormatterXML(),
-      text: new FormatterText(),
+      json: new f.FormatterJSON(),
+      xml: new f.FormatterXML(),
+      text: new f.FormatterText(),
     }
     this.data = "";
   }

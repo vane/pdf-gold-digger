@@ -4,6 +4,7 @@ const FileManager = require('../FileManager');
 
 /**
  * Visit image objects in pdf files
+ * @extends {VisitorBase}
  */
 class VisitorImage extends VisitorBase {
 

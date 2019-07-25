@@ -1,7 +1,9 @@
-
+/**
+ * Format PDF into text data
+ */
 class FormatterText {
   /**
-   * See {Formatter}
+   * See {@link Formatter}
    * @param doc
    * @param metadata
    * @returns {string}
@@ -11,8 +13,8 @@ class FormatterText {
   }
 
   /**
-   * Format {TextObject} to string
-   * @param textObject {TextObject}
+   * Format {@link TextObject} to string
+   * @param {TextObject} textObject
    * @returns {string}
    */
   formatTextObject(textObject) {
@@ -25,8 +27,8 @@ class FormatterText {
   }
 
   /**
-   * Format {TextLine} to string
-   * @param textLine
+   * Format {@link TextLine} to string
+   * @param {TextLine} textLine
    * @returns {string}
    */
   formatTextLine(textLine) {
@@ -38,8 +40,8 @@ class FormatterText {
   }
 
   /**
-   * Format {TextFont} to string
-   * @param textFont {TextFont}
+   * Format {@link TextFont} to string
+   * @param {TextFont} textFont
    * @returns {string|TextFont|*}
    */
   formatTextFont(textFont) {
@@ -47,7 +49,7 @@ class FormatterText {
   }
 
   /**
-   * See {Formatter}
+   * See {@link Formatter}
    * @param page
    * @param data
    * @param last
@@ -63,7 +65,7 @@ class FormatterText {
   }
 
   /**
-   * See {Formatter}
+   * See {@link Formatter}
    * @returns {string}
    */
   end() {

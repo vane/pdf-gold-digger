@@ -8,8 +8,8 @@ const util = require('pdfjs-dist/lib/shared/util');
 class ExtractText {
   /**
    * Return text from glyphs array
-   * @param glyphs - glyphs from pdf.OPS.showText, pdf.OPS.showSpacedText
-   * @param page - PdfPage object @see PdfPage
+   * @param {array} glyphs - glyphs from pdf.OPS.showText, pdf.OPS.showSpacedText
+   * @param {PdfPage} page - pdf page object
    */
   showText(glyphs, page) {
     // MOVED from VisitorText
@@ -77,7 +77,7 @@ class ExtractText {
 
   /**
    * Find font family inside loadedDependencies based on font name
-   * @param name - font name
+   * @param {string} name - font name
    * @param dependencies - pdf document data
    * @returns {*} font from dependencies if found otherwise null
    * (probably need to warn user for missing font inside document)
@@ -92,9 +92,9 @@ class ExtractText {
   }
 
   /**
-   * Gets FontObject from page information when pdf.OPS.setFont
+   * Gets {@link FontObject} from page information when pdf.OPS.setFont
    * @param details - arguments from pdf.OPS.setFont
-   * @param page - pdf page @see PdfPage
+   * @param {PdfPage} page - pdf page
    */
   setFont(details, page) {
     const fontObj = page.data.commonObjs.get(details[0]);

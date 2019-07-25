@@ -1,6 +1,15 @@
 const PdfObject = require('./PdfObject');
 
+/**
+ * Holds PDF page information
+ * @extends {PdfObject}
+ */
 class PdfPage extends PdfObject {
+  /**
+   * Constructor
+   * @param {object} data - pdf page data opcodes
+   * @param {object} dependencies - pdf loaded resources
+   */
   constructor (data, dependencies) {
     super();
     this.data = data;
@@ -21,6 +30,10 @@ class PdfPage extends PdfObject {
     this.currentFont;
   }
 
+  /**
+   * Set current object and add it to objectList
+   * @param {TextObject} obj
+   */
   setCurrentObject(obj) {
     this.currentObject = obj
     this.objectList.push(obj);

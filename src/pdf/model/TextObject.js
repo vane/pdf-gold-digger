@@ -18,7 +18,7 @@ class TextObject extends PdfObject {
   }
 
   /**
-   * Create new {TextLine} adds it to array and returns it as value
+   * Create new {@link TextLine} adds it to array and returns it as value
    * @returns {TextLine}
    */
   newLine() {
@@ -28,7 +28,7 @@ class TextObject extends PdfObject {
   }
 
   /**
-   * Return last {TextLine} from text array
+   * Return last {@link TextLine} from text array
    * @returns {TextLine}
    */
   getLine() {
@@ -36,7 +36,7 @@ class TextObject extends PdfObject {
   }
 
   /**
-   * Return array of {TextLine}
+   * Return array of {@link TextLine}
    * @returns {Array}
    */
   getData() {
