@@ -31,11 +31,12 @@ class ExtractText {
     for(const glyph of glyphs) {
       if (glyph === null) {
         // Word break
-        x += font.direction * line.wordSpacing;
+        x += line.font.direction * line.wordSpacing;
         continue;
       } else if (util.isNum(glyph)) {
-        x += -glyph * line.font.size * 0.001;
-        if (glyph <= -150) {
+        const spaceSize = -glyph * line.font.size * 0.001;
+        x += spaceSize;
+        if (!line.font.spaceWidthIsSet && line.isSpace(glyph)) {
           partial += " ";
         }
         continue;
@@ -63,7 +64,7 @@ class ExtractText {
     }
     line.x = page.x;
     line.y = page.y;
-    line.setText(partial+" ");
+    line.setText(partial);
     const isNew = lineList.y !== 0 && Math.abs(line.y - lineList.y) > line.font.size
     if(isNew) {
       lineList.printText()
@@ -98,6 +99,18 @@ class ExtractText {
   setFont(details, page) {
     const fontObj = page.data.commonObjs.get(details[0]);
     const font = new Model.FontObject()
+    // calculate space width
+    let spaceKey = -1
+    for(let key in fontObj.toUnicode._map) {
+      if(fontObj.toUnicode._map[key] === " ") {
+        spaceKey = key;
+        break;
+      }
+    }
+    if(spaceKey > -1 && fontObj.widths[spaceKey]) {
+      font.spaceWidthIsSet = true;
+      font.spaceWidth = fontObj.widths[spaceKey];
+    }
     font.setSize(details[1]);
     font.weight = fontObj.black ? (fontObj.bold ? 'bolder' : 'bold') :
       (fontObj.bold ? 'bold' : 'normal');

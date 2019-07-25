@@ -18,9 +18,11 @@ class VisitorText extends VisitorBase {
   beginText(args) {
     if (this.config.debug) console.log('beginText');
     if (this.config.skip) return;
-    this.page.setCurrentObject(new Model.TextObject());
-    // SHOULD determine if new line while extracting text cause it can begin in any time
-    this.page.currentObject.newLine();
+    if(!this.page.currentObject || !("textMatrixScale" in this.page.currentObject)) {
+      this.page.setCurrentObject(new Model.TextObject());
+      // SHOULD determine if new line while extracting text cause it can begin in any time
+      this.page.currentObject.newLine();
+    }
 
   }
 
@@ -92,7 +94,6 @@ class VisitorText extends VisitorBase {
   endText(args) {
     if (this.debug) console.log('endText');
     if (this.config.skip) return;
-    this.page.currentObject = null;
   }
 
   /**
@@ -127,8 +128,8 @@ class VisitorText extends VisitorBase {
     if (this.config.skip) return;
     const a = args[0], b = args[1], c = args[2], d = args[3], e = args[4], f = args[5];
     this.page.currentObject.textMatrix = this.page.currentObject.lineMatrix = [a, b, c, d, e, f];
-    this.page.currentObject.x = 0;
-    this.page.currentObject.y = 0;
+    this.page.x = e;
+    this.page.y = f;
   }
 
   /**

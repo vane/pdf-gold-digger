@@ -10,6 +10,8 @@ class FontObject {
     this.family = null;
     this.direction = 1;
     this.vertical = false;
+    this.spaceWidthIsSet = false;
+    this.spaceWidth = 250;
   }
 
   /**

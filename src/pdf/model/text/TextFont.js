@@ -10,6 +10,7 @@ class TextFont extends PdfObject {
     this._text = "";
     this.charSpacing = 0;
     this.wordSpacing = 0;
+    this._tolerance = 5;
   }
 
   /**
@@ -22,6 +23,18 @@ class TextFont extends PdfObject {
     } else {
       this._text = text;
     }
+  }
+
+  isSpace(glyph) {
+    if(-glyph >= this.font.spaceWidth) {
+      return true;
+    } else if(this.font.size < 10) {
+      const space = this.font.spaceWidth - (10 * Math.round(this.font.size)) - this._tolerance;
+      if(-glyph >= space) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
