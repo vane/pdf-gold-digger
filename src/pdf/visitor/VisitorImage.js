@@ -7,9 +7,8 @@ const FileManager = require('../FileManager');
  */
 class VisitorImage extends VisitorBase {
 
-  constructor (config, pageData, dependencies, debug, objectList) {
-    super(config, pageData, dependencies, debug, objectList);
-    // this.debug = true;
+  constructor (config, page) {
+    super(config, page);
     FileManager.mkdirNotExists(`${this.config.outputDir}/img`);
   }
 
@@ -17,7 +16,7 @@ class VisitorImage extends VisitorBase {
    * pdf.OPS.paintJpegXObject
    */
   paintJpegXObject(args) {
-    if (this.debug) console.log('paintJpegXObject');
+    if (this.config.debug) console.log('paintJpegXObject');
     // if (this.config.skip) return;
     const objId = args[1], w = args[1], h = args[2];
     console.log(objId);
@@ -28,9 +27,9 @@ class VisitorImage extends VisitorBase {
    * pdf.OPS.paintImageXObject
    */
   paintImageXObject(args) {
-    if (this.debug) console.log('paintImageXObject');
+    if (this.config.debug) console.log('paintImageXObject');
     // if (this.config.skip) return;
-    const imgData = page.objs.get(args[0]);
+    const imgData = this.page.data.objs.get(args[0]);
     this.paintInlineImageXObject([imgData, args[0]]);
   }
 
@@ -38,7 +37,7 @@ class VisitorImage extends VisitorBase {
    * pdf.OPS.paintImageMaskXObject
    */
   paintImageMaskXObject(args) {
-    if (this.debug) console.log('paintImageMaskXObject');
+    if (this.config.debug) console.log('paintImageMaskXObject');
     // if (this.config.skip) return;
     this.paintInlineImageXObject(args[0]);
   }
@@ -47,14 +46,14 @@ class VisitorImage extends VisitorBase {
    * pdf.OPS.paintInlineImageXObject
    */
   async paintInlineImageXObject(args) {
-    if (this.debug) console.log('paintInlineImageXObject');
+    if (this.config.debug) console.log('paintInlineImageXObject');
     // if (this.config.skip) return;
     const imgData = args[0];
-    if (this.debug) console.log(`Image : ${imgData.width}x${imgData.height}`);
+    if (this.config.debug) console.log(`Image : ${imgData.width}x${imgData.height}`);
     // TODO imlement mask
     const mask = false;
     const imgBinary = pdfjs.convertImgDataToPng(imgData, this.forceDataSchema, !!mask);
-    const fpath = `${this.config.outputDir}/img/page.${this.pageData.pageIndex}.${args[1]}.png`
+    const fpath = `${this.config.outputDir}/img/page.${this.page.data.pageIndex}.${args[1]}.png`
     await FileManager.saveFileAsync(fpath, imgBinary);
   }
 }

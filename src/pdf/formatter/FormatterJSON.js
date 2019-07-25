@@ -52,14 +52,13 @@ class FormatterJSON {
    * @returns {object}
    */
   formatTextFont(textFont) {
-    const font = textFont.getFont();
     return {
       font: {
-        size: font.size,
-        direction: font.direction,
-        family: font.family,
-        style: font.style,
-        weight: font.weight,
+        size: textFont.font.size,
+        direction: textFont.font.direction,
+        family: textFont.font.family,
+        style: textFont.font.style,
+        weight: textFont.font.weight,
       },
       text: textFont.getText(),
       charSpacing: textFont.charSpacing,

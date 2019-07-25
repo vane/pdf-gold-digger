@@ -2,12 +2,14 @@
  * Base visitor class with default constructor
  */
 class VisitorBase {
-  constructor(config, pageData, dependencies, debug, objectList) {
+  /**
+   * Constructor
+   * @param config - configuration
+   * @param page - PdfPage @see PdfPage
+   */
+  constructor(config, page) {
     this.config = config;
-    this.debug = debug;
-    this.pageData = pageData;
-    this.dependencies = dependencies;
-    this.objectList = objectList;
+    this.page = page;
   }
 }
 

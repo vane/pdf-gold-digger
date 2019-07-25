@@ -4,10 +4,14 @@
 class FontObject {
   constructor() {
     this.size = 0;
-    this.weight = null;
+    this.sizeScale = 1;
+    this.weight = 'normal';
     this.style = null;
     this.family = null;
     this.direction = 1;
+    this.vertical = false;
+    this.spaceWidthIsSet = false;
+    this.spaceWidth = 250;
   }
 
   /**
