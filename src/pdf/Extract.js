@@ -34,8 +34,7 @@ class ExtractText {
         x += line.font.direction * line.wordSpacing;
         continue;
       } else if (util.isNum(glyph)) {
-        const spaceSize = -glyph * line.font.size * 0.001;
-        x += spaceSize;
+        x += -glyph * line.font.size * 0.001;
         if (!line.font.spaceWidthIsSet && line.isSpace(glyph)) {
           partial += " ";
         }
@@ -65,10 +64,10 @@ class ExtractText {
     line.x = page.x;
     line.y = page.y;
     line.setText(partial);
-    const isNew = lineList.y !== 0 && Math.abs(line.y - lineList.y) > line.font.size
+    const isNew = lineList.y !== 0 && Math.abs(line.y - lineList.y) > line.font.size;
     if(isNew) {
-      lineList.printText()
-      lineList = page.currentObject.newLine()
+      lineList.printText();
+      lineList = page.currentObject.newLine();
     }
     lineList.x = startX;
     lineList.y = startY;
@@ -85,7 +84,7 @@ class ExtractText {
   getFontFamily(name, dependencies) {
     for(let i = 0;i<dependencies.length;i++) {
       if(dependencies[i].loadedName == name) {
-        return dependencies[i]
+        return dependencies[i];
       }
     }
     return null;
@@ -98,7 +97,7 @@ class ExtractText {
    */
   setFont(details, page) {
     const fontObj = page.data.commonObjs.get(details[0]);
-    const font = new Model.FontObject()
+    const font = new Model.FontObject();
     // calculate space width
     let spaceKey = -1
     for(let key in fontObj.toUnicode._map) {
