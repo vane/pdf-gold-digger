@@ -25,7 +25,8 @@ ex. pdfdig -i input-file -o output_directory -f json
   --input  or  -i   pdf file location (required)
   --output or  -o   pdf file location (optional default "out")
   --debug  or  -d   show debug information (optional - default "false")
-  --format or  -f   format (optional - default "text") - ("text,json,xml"): 
+  --format or  -f   format (optional - default "text") - ("text,json,xml") 
+  --font   or  -t   extract fonts as ttf files
   --help   or  -h   display this help message
 ```
 
