@@ -12,4 +12,4 @@ module.exports = {
   TextFont,
   TextLine,
   PdfPage,
-}
+};

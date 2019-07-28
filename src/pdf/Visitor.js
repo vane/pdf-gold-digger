@@ -13,7 +13,6 @@ const FN_IMAGE = ['paintJpegXObject', 'paintImageXObject', 'paintInlineImageXObj
  * Visits pdf.OPT.* methods using pdf page data
  */
 class Visitor {
-
   /**
    * Constructor
    * @param {object} config - application configuration
@@ -46,10 +45,10 @@ class Visitor {
    * @param fname - function name to be visited
    * @param args - function arguments
    */
-  visit(fname, args) {
-    if(FN_TEXT.indexOf(fname) > -1) {
+  visit (fname, args) {
+    if (FN_TEXT.indexOf(fname) > -1) {
       this.txt[fname](args);
-    } else if(FN_XOBJECT.indexOf(fname) > -1) {
+    } else if (FN_XOBJECT.indexOf(fname) > -1) {
       this.xobject[fname](args);
     } else if (FN_IMAGE.indexOf(fname) > -1) {
       this.image[fname](args);
@@ -59,4 +58,4 @@ class Visitor {
   }
 }
 
-module.exports = Visitor
+module.exports = Visitor;

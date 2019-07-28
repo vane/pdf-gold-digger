@@ -1,0 +1,11 @@
+{
+  "extends": "standard",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2017
+  },
+  "rules": {
+    "semi": [2, "always"],
+    "comma-dangle": ["error", "always-multiline"]
+  }
+}

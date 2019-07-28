@@ -4,12 +4,11 @@ const f = require('./formatters');
  * Formats PDF to desired output
  */
 class Formatter {
-
   /**
    * Constructor
    * @param config
    */
-  constructor(config) {
+  constructor (config) {
     this.debug = config.debug;
     /**
      * @type {{json: FormatterJSON, xml: FormatterXML, text: FormatterText}}
@@ -18,8 +17,8 @@ class Formatter {
       json: new f.FormatterJSON(),
       xml: new f.FormatterXML(),
       text: new f.FormatterText(),
-    }
-    this.data = "";
+    };
+    this.data = '';
   }
 
   /**
@@ -28,7 +27,7 @@ class Formatter {
    * @param doc - pdf document
    * @param metadata - pdf document metadata
    */
-  start(format, doc, metadata) {
+  start (format, doc, metadata) {
     const o = this.formatters[format].start(doc, metadata);
     this.data += o;
     if (this.debug) console.log(o);
@@ -41,7 +40,7 @@ class Formatter {
    * @param data - array of {PdfObject} to format
    * @param last - is this page last page (useful for json formatting)
    */
-  format(format, page, data, last) {
+  format (format, page, data, last) {
     const o = this.formatters[format].format(page, data, last);
     this.data += o;
     if (this.debug) console.log(o);
@@ -51,7 +50,7 @@ class Formatter {
    * End of formatting
    * @param format - provided by command line parameter ex.text
    */
-  end(format) {
+  end (format) {
     const o = this.formatters[format].end();
     this.data += o;
     if (this.debug) console.log(o);

@@ -4,4 +4,4 @@ const VisitorImage = require('./VisitorImage');
 
 module.exports = {
   VisitorText, VisitorXObject, VisitorImage,
-}
+};

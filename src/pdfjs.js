@@ -6,7 +6,7 @@ const ImageKind = util.ImageKind;
 /**
  * See pdf.js/src/display/svg.js
  */
-const convertImgDataToPng = (function() {
+const convertImgDataToPng = (() => {
   const PNG_HEADER =
     new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
   const CHUNK_WRAPPER_SIZE = 12;
@@ -24,7 +24,7 @@ const convertImgDataToPng = (function() {
     crcTable[i] = c;
   }
 
-  function crc32(data, start, end) {
+  function crc32 (data, start, end) {
     let crc = -1;
     for (let i = start; i < end; i++) {
       const a = (crc ^ data[i]) & 0xff;
@@ -34,7 +34,7 @@ const convertImgDataToPng = (function() {
     return crc ^ -1;
   }
 
-  function writePngChunk(type, body, data, offset) {
+  function writePngChunk (type, body, data, offset) {
     let p = offset;
     const len = body.length;
 
@@ -60,7 +60,7 @@ const convertImgDataToPng = (function() {
     data[p + 3] = crc & 0xff;
   }
 
-  function adler32(data, start, end) {
+  function adler32 (data, start, end) {
     let a = 1;
     let b = 0;
     for (let i = start; i < end; ++i) {
@@ -76,7 +76,7 @@ const convertImgDataToPng = (function() {
    *   This is the required format for compressed streams in the PNG format:
    *   http://www.libpng.org/pub/png/spec/1.2/PNG-Compression.html
    */
-  function deflateSync(literals) {
+  function deflateSync (literals) {
     if (!isNodeJS()) {
       // zlib is certainly not available outside of Node.js. We can either use
       // the pako library for client-side DEFLATE compression, or use the canvas
@@ -99,21 +99,22 @@ const convertImgDataToPng = (function() {
         input = literals;
       } else {
         // eslint-disable-next-line no-undef
-        input = new Buffer(literals);
+        // input = new Buffer(literals);
+        input = Buffer.from(literals);
       }
       // const output = __non_webpack_require__('zlib')
       const output = zlib
-        .deflateSync(input, { level: 9, });
+        .deflateSync(input, { level: 9 });
       return output instanceof Uint8Array ? output : new Uint8Array(output);
     } catch (e) {
-      warn('Not compressing PNG because zlib.deflateSync is unavailable: ' + e);
+      console.warn('Not compressing PNG because zlib.deflateSync is unavailable: ' + e);
     }
 
     return deflateSyncUncompressed(literals);
   }
 
   // An implementation of DEFLATE with compression level 0 (Z_NO_COMPRESSION).
-  function deflateSyncUncompressed(literals) {
+  function deflateSyncUncompressed (literals) {
     let len = literals.length;
     const maxBlockLength = 0xFFFF;
 
@@ -154,7 +155,7 @@ const convertImgDataToPng = (function() {
     return idat;
   }
 
-  function encode(imgData, kind, forceDataSchema, isMask) {
+  function encode (imgData, kind, forceDataSchema, isMask) {
     const width = imgData.width;
     const height = imgData.height;
     let bitDepth, colorType, lineSize;
@@ -182,7 +183,8 @@ const convertImgDataToPng = (function() {
 
     // prefix every row with predictor 0
     const literals = new Uint8Array((1 + lineSize) * height);
-    let offsetLiterals = 0, offsetBytes = 0;
+    let offsetLiterals = 0;
+    let offsetBytes = 0;
     for (let y = 0; y < height; ++y) {
       literals[offsetLiterals++] = 0; // no prediction
       literals.set(bytes.subarray(offsetBytes, offsetBytes + lineSize),
@@ -215,7 +217,7 @@ const convertImgDataToPng = (function() {
       colorType, // color type
       0x00, // compression method
       0x00, // filter method
-      0x00 // interlace method
+      0x00, // interlace method
     ]);
     const idat = deflateSync(literals);
 
@@ -232,12 +234,11 @@ const convertImgDataToPng = (function() {
     offset += CHUNK_WRAPPER_SIZE + idat.length;
     writePngChunk('IEND', new Uint8Array(0), data, offset);
     return data;
-    //return util.createObjectURL(data, 'image/png', forceDataSchema);
+    // return util.createObjectURL(data, 'image/png', forceDataSchema);
   }
 
-  return function convertImgDataToPng(imgData, forceDataSchema, isMask) {
-    const kind = (imgData.kind === undefined ?
-      ImageKind.GRAYSCALE_1BPP : imgData.kind);
+  return function convertImgDataToPng (imgData, forceDataSchema, isMask) {
+    const kind = (imgData.kind === undefined ? ImageKind.GRAYSCALE_1BPP : imgData.kind);
     return encode(imgData, kind, forceDataSchema, isMask);
   };
 })();

@@ -24,11 +24,18 @@
     "pdf-text-extract"
   ],
   "scripts": {
-    "doc": "esdoc"
+    "doc": "esdoc",
+    "lint": "eslint src"
   },
   "devDependencies": {
     "esdoc": "^1.1.0",
     "esdoc-node": "^1.0.4",
-    "esdoc-standard-plugin": "^1.0.0"
+    "esdoc-standard-plugin": "^1.0.0",
+    "eslint": "^6.1.0",
+    "eslint-config-standard": "^13.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0"
   }
 }

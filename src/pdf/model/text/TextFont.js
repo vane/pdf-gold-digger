@@ -5,10 +5,13 @@ const PdfObject = require('./../PdfObject');
  * @extends {PdfObject}
  */
 class TextFont extends PdfObject {
-  constructor() {
+  /**
+   * Constructor
+   */
+  constructor () {
     super();
     this.font = null;
-    this._text = "";
+    this._text = '';
     this.charSpacing = 0;
     this.wordSpacing = 0;
     this._tolerance = 5;
@@ -18,8 +21,8 @@ class TextFont extends PdfObject {
    * Setter for text string
    * @param text {string}
    */
-  setText(text) {
-    if(this._text.length > 0) {
+  setText (text) {
+    if (this._text.length > 0) {
       this._text += text;
     } else {
       this._text = text;
@@ -31,12 +34,12 @@ class TextFont extends PdfObject {
    * @param {number} glyph - numeric size
    * @returns {boolean} - flag true if it's space false if it's not
    */
-  isSpace(glyph) {
-    if(-glyph >= this.font.spaceWidth) {
+  isSpace (glyph) {
+    if (-glyph >= this.font.spaceWidth) {
       return true;
-    } else if(this.font.size < 10) {
+    } else if (this.font.size < 10) {
       const space = this.font.spaceWidth - (10 * Math.round(this.font.size)) - this._tolerance;
-      if(-glyph >= space) {
+      if (-glyph >= space) {
         return true;
       }
     }
@@ -47,7 +50,7 @@ class TextFont extends PdfObject {
    * Getter for text string
    * @returns {string}
    */
-  getText() {
+  getText () {
     return this._text;
   }
 }

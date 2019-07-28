@@ -8,7 +8,10 @@ const TextLine = require('./text/TextLine');
  * with multiple lines in pdf document
  */
 class TextObject extends PdfObject {
-  constructor() {
+  /**
+   * Constructor
+   */
+  constructor () {
     super();
     this.textMatrix = Constraints.IDENTITY_MATRIX;
     this.textRenderingMode = util.TextRenderingMode.FILL;
@@ -21,7 +24,7 @@ class TextObject extends PdfObject {
    * Create new {@link TextLine} adds it to array and returns it as value
    * @returns {TextLine}
    */
-  newLine() {
+  newLine () {
     const t = new TextLine();
     this._textLines.push(t);
     return t;
@@ -31,15 +34,15 @@ class TextObject extends PdfObject {
    * Return last {@link TextLine} from text array
    * @returns {TextLine}
    */
-  getLine() {
-    return this._textLines[this._textLines.length -1]
+  getLine () {
+    return this._textLines[this._textLines.length - 1];
   }
 
   /**
    * Return array of {@link TextLine}
    * @returns {Array}
    */
-  getData() {
+  getData () {
     return this._textLines;
   }
 }

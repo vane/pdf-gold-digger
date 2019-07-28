@@ -5,7 +5,7 @@ class FontObject {
   /**
    * Constructor
    */
-  constructor() {
+  constructor () {
     /**
      * @type {number}
      */
@@ -48,7 +48,7 @@ class FontObject {
    * Set font size based on number if it's negative it will be other font direction
    * @param {number} size
    */
-  setSize(size) {
+  setSize (size) {
     if (size < 0) {
       this.size = size;
       this.direction = -1;
@@ -57,4 +57,4 @@ class FontObject {
     }
   }
 }
-module.exports = FontObject
+module.exports = FontObject;

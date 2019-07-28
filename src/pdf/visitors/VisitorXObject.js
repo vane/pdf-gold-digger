@@ -6,13 +6,12 @@ const VisitorBase = require('./VisitorBase');
  * @extends {VisitorBase}
  */
 class VisitorXObject extends VisitorBase {
-
   /**
    * pdf.OPS.paintFormXObjectBegin
    */
-  paintFormXObjectBegin(args) {
+  paintFormXObjectBegin (args) {
     if (this.config.debug) console.log('paintFormXObjectBegin');
-    if(!this.config.paintFormXObject) {
+    if (!this.config.paintFormXObject) {
       this.config.skip = true;
     }
   }
@@ -20,10 +19,10 @@ class VisitorXObject extends VisitorBase {
   /**
    * pdf.OPS.paintFormXObjectEnd
    */
-  paintFormXObjectEnd(args) {
+  paintFormXObjectEnd (args) {
     if (this.config.debug) console.log('paintFormXObjectEnd');
     this.config.skip = false;
   }
 }
 
-module.exports = VisitorXObject
+module.exports = VisitorXObject;

@@ -8,8 +8,8 @@ class FormatterText {
    * @param metadata
    * @returns {string}
    */
-  start(doc, metadata) {
-    return ''
+  start (doc, metadata) {
+    return '';
   }
 
   /**
@@ -17,7 +17,7 @@ class FormatterText {
    * @param {TextObject} textObject
    * @returns {string}
    */
-  formatTextObject(textObject) {
+  formatTextObject (textObject) {
     let txtObjOut = '';
     textObject.getData().forEach(textLine => {
       const txtLineOut = this.formatTextLine(textLine);
@@ -31,7 +31,7 @@ class FormatterText {
    * @param {TextLine} textLine
    * @returns {string}
    */
-  formatTextLine(textLine) {
+  formatTextLine (textLine) {
     let txtLineOut = '';
     textLine.getData().forEach(textFont => {
       txtLineOut += this.formatTextFont(textFont);
@@ -44,7 +44,7 @@ class FormatterText {
    * @param {TextFont} textFont
    * @returns {string|TextFont|*}
    */
-  formatTextFont(textFont) {
+  formatTextFont (textFont) {
     return textFont.getText();
   }
 
@@ -55,7 +55,7 @@ class FormatterText {
    * @param last
    * @returns {string}
    */
-  format(page, data, last) {
+  format (page, data, last) {
     let output = '';
     data.forEach(textObject => {
       const txtObjOut = this.formatTextObject(textObject);
@@ -68,10 +68,9 @@ class FormatterText {
    * See {@link Formatter}
    * @returns {string}
    */
-  end() {
-    return ''
+  end () {
+    return '';
   }
-
 }
 
 module.exports = FormatterText;

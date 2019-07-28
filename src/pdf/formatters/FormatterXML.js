@@ -8,10 +8,10 @@ class FormatterXML {
    * @param metadata
    * @returns {string}
    */
-  start(doc, metadata) {
+  start (doc, metadata) {
     return `<?xml version="1.0" encoding="UTF-8"?>
     <document>
-    `
+    `;
   }
 
   /**
@@ -21,17 +21,17 @@ class FormatterXML {
    * @param last
    * @returns {string}
    */
-  format(page, data, last) {
+  format (page, data, last) {
     const output = '';
-    return output
+    return output;
   }
-  
+
   /**
    * See {@link Formatter}
    * @returns {string}
    */
-  end() {
-    return '</document>'
+  end () {
+    return '</document>';
   }
 }
 

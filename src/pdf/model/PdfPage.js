@@ -25,17 +25,17 @@ class PdfPage extends PdfObject {
     this.wordSpacing = 0;
     this.textHScale = 1;
     this.textRise = 0;
-    
-    this.currentObject;
-    this.currentFont;
+
+    this.currentObject = null;
+    this.currentFont = null;
   }
 
   /**
    * Set current object and add it to objectList
    * @param {TextObject} obj
    */
-  setCurrentObject(obj) {
-    this.currentObject = obj
+  setCurrentObject (obj) {
+    this.currentObject = obj;
     this.objectList.push(obj);
   }
 }
