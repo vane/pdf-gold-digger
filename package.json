@@ -19,9 +19,10 @@
     "pdfjs",
     "nodejs",
     "pdf-text-extract",
-    "extract-information",
     "extract-data-from-pdf",
-    "pdf-gold-digger"
+    "pdf-gold-digger",
+    "pdf-to-html",
+    "pdf-converter"
   ],
   "scripts": {
     "doc": "esdoc",
