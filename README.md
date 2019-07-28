@@ -59,7 +59,7 @@ and see results in ```out``` directory
 - load pdf from remote location
   - from url
 - output to markdown format
-- output to zip
+- pack output to zip
 - extract tables
 - extract forms
 - extract drawings
