@@ -79,6 +79,14 @@ class FormatterText {
 
   /**
    * See {@link Formatter}
+   * @param {array} fontData
+   */
+  formatFont (fontData) {
+    return '';
+  }
+
+  /**
+   * See {@link Formatter}
    * @returns {string}
    */
   end () {

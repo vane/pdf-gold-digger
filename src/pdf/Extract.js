@@ -76,7 +76,7 @@ class ExtractText {
     line.setText(partial);
     const isNew = lineList.y !== 0 && Math.abs(line.y - lineList.y) > line.font.size;
     if (isNew) {
-      lineList.printText();
+      // lineList.printText();
       lineList = page.currentObject.newLine();
     }
     lineList.y = startY;
@@ -137,7 +137,7 @@ class ExtractText {
     } else {
       font.family = fontObj.loadedName;
     }
-    font.vertical = fontObj.vertical;
+    font.vertical = fontObj.vertical || false;
     this.parseFont(fontObj, font);
     page.currentFont = font;
   }
@@ -153,10 +153,10 @@ class ExtractText {
     if (!(fontObj.name in FONT_CACHE)) {
       if (!fontObj.missingFile) {
         fontLoaded = opentype.parse(fontObj.data.buffer);
-        FONT_CACHE[fontObj.name] = fontLoaded;
+        FONT_CACHE[fontObj.name] = { loaded: fontLoaded };
       }
     } else {
-      fontLoaded = FONT_CACHE[fontObj.name];
+      fontLoaded = FONT_CACHE[fontObj.name].loaded;
     }
     // get font information
     if (fontLoaded) {
@@ -178,10 +178,12 @@ class ExtractText {
         font.style = 'italic';
         font.weight = 'bold';
       }
+      FONT_CACHE[fontObj.name].font = font;
     }
   }
 }
 
 module.exports = {
   ExtractText,
+  FONT_CACHE,
 };

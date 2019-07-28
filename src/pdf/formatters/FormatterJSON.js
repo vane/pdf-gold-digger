@@ -15,8 +15,7 @@ class FormatterJSON {
     return `{
       "pages_count": ${doc.numPages},
       "metadata": ${meta},
-      "pages": {
-    `;
+      "pages": {`;
   }
 
   /**
@@ -82,14 +81,15 @@ class FormatterJSON {
    * @returns {object}
    */
   formatTextFont (textFont) {
+    const font = textFont.font;
     return {
       font: {
-        size: textFont.font.size,
-        direction: textFont.font.direction,
-        family: textFont.font.family,
-        style: textFont.font.style,
-        weight: textFont.font.weight,
-        vertical: textFont.font.vertical,
+        size: font.size,
+        direction: font.direction,
+        family: font.family,
+        style: font.style,
+        weight: font.weight,
+        vertical: font.vertical,
       },
       x: textFont.x,
       y: textFont.y,
@@ -122,7 +122,29 @@ class FormatterJSON {
     const out = JSON.stringify({
       data: txtData,
     }); // pretty print (output, null, 4)
-    return `"${page.pageIndex}": ${out}${last ? '' : ','}`;
+    return `"${page.pageIndex}": ${out}${last ? '},\n' : ','}`;
+  }
+
+  /**
+   * See {@link Formatter}
+   * @param {array} fontData
+   */
+  formatFont (fontData) {
+    let out = '"fonts":{';
+    Object.values(fontData).forEach(fontObj => {
+      const font = fontObj.font;
+      const fontJSON = JSON.stringify({
+        size: font.size,
+        direction: font.direction,
+        family: font.family,
+        style: font.style,
+        weight: font.weight,
+        vertical: font.vertical,
+      });
+      out += `"${font.family}": ${fontJSON},`;
+    });
+    out = out.substring(0, out.length - 1) + '}';
+    return out;
   }
 
   /**
@@ -130,9 +152,7 @@ class FormatterJSON {
    * @returns {string}
    */
   end () {
-    return `}
-    }
-    `;
+    return `\n}`;
   }
 }
 

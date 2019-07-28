@@ -1,5 +1,18 @@
 const Model = require('../model');
 
+// https://stackoverflow.com/questions/7918868/how-to-escape-xml-entities-in-javascript
+const escapeXml = (unsafe) => {
+  return unsafe.replace(/[<>&'"]/g, function (c) {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case '\'': return '&apos;';
+      case '"': return '&quot;';
+    }
+  });
+}
+
 /**
  * Format PDF into xml data
  */
@@ -13,6 +26,7 @@ class FormatterXML {
   start (doc, metadata) {
     return `<?xml version="1.0" encoding="UTF-8"?>
     <document>
+      <pages>
     `;
   }
 
@@ -68,17 +82,18 @@ class FormatterXML {
    * @returns {object}
    */
   formatTextFont (textFont) {
+    const font = textFont.font;
     return `<text 
-    size="${textFont.font.size}" 
-    direction="${textFont.font.direction}"
-    family="${textFont.font.family}"
-    style="${textFont.font.style}"
-    weight="${textFont.font.weight}"
-    vertical="${textFont.font.vertical}"
+    size="${font.size}" 
+    direction="${font.direction}"
+    family="${font.family}"
+    style="${font.style}"
+    weight="${font.weight}"
+    vertical="${font.vertical}"
     x="${textFont.x}"
     y="${textFont.y}"
     char-spacing="${textFont.charSpacing}"
-    word-spacing="${textFont.wordSpacing}">${textFont.getText()}</text>\n`;
+    word-spacing="${textFont.wordSpacing}">${escapeXml(textFont.getText())}</text>\n`;
   }
 
   /**
@@ -89,7 +104,7 @@ class FormatterXML {
    * @returns {string}
    */
   format (page, data, last) {
-    let out = '<data>\n';
+    let out = `<page index="${page.pageIndex}">\n`;
     data.forEach(pdfObject => {
       if (pdfObject instanceof Model.TextObject) {
         out += this.formatTextObject(pdfObject);
@@ -99,7 +114,25 @@ class FormatterXML {
         console.warn(`Not recognised object ${pdfObject}`);
       }
     });
-    out += '</data>';
+    out += '</page>\n';
+    if(last) {
+      out += '</pages>'
+    }
+    return out;
+  }
+
+  formatFont (fontData) {
+    let out = '<fonts>\n';
+    Object.values(fontData).forEach(fontObj => {
+      const font = fontObj.font;
+      out += `<font family="${font.family}" 
+size="${font.size}" 
+direction="${font.direction}"
+style="${font.style}"
+weight="${font.weight}"
+vertical="${font.vertical}">${font.family}</font>\n`;
+    });
+    out += '</fonts>';
     return out;
   }
 

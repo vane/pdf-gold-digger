@@ -47,6 +47,12 @@ class Formatter {
     if (this.debug) console.log(o);
   }
 
+  formatFont (format, fontData) {
+    const o = this.formatters[format].formatFont(fontData);
+    this.data += o;
+    if (this.debug) console.log(o);
+  }
+
   /**
    * End of formatting
    * @param format - provided by command line parameter ex.text
