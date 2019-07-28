@@ -15,7 +15,7 @@ class FormatterHTML {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>${metadata['Title'] ? metadata['Title'] : 'pdf-gold-digger - pdf to html'}</title>
 </head>
 <body>
     `;
