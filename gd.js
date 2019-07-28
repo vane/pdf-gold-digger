@@ -7,7 +7,7 @@ const supportedFormat = ['text', 'json', 'xml'];
 const ERR_INVALID_FORMAT = `
 Invalid output
 Please specify one of those values : "${supportedFormat}"
-`
+`;
 
 const helpText = `
 ex. pdfdig -i input-file -o output_directory -f json
@@ -18,12 +18,12 @@ ex. pdfdig -i input-file -o output_directory -f json
 --format or  -f   format (optional - default "text") - ("${supportedFormat}")
 --font   or  -t   extract fonts as ttf files
 --help   or  -h   display this help message
-`
+`;
 
 // converts argument to boolean
 const toBool = (val) => {
   return val === 'true' || val === 1 || val === true;
-}
+};
 
 const argv = minimist(process.argv.slice(2))
 const help = argv['help'] || argv['h'];
