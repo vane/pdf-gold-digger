@@ -2,7 +2,7 @@ const minimist = require('minimist');
 const GoldDigger = require('./src/GoldDigger');
 const FileManager = require('./src/pdf/FileManager');
 
-
+const ver = "0.0.7";
 const supportedFormat = ['text', 'json', 'xml', 'html'];
 const ERR_INVALID_FORMAT = `
 Invalid output
@@ -12,12 +12,13 @@ Please specify one of those values : "${supportedFormat}"
 const helpText = `
 ex. pdfdig -i input-file -o output_directory -f json
 
---input  or  -i   pdf file location (required)
---output or  -o   pdf file location (optional default "out")
---debug  or  -d   show debug information (optional - default "false")
---format or  -f   format (optional - default "text") - ("${supportedFormat}")
---font   or  -t   extract fonts as ttf files
---help   or  -h   display this help message
+--input   or  -i   pdf file location (required)
+--output  or  -o   pdf file location (optional default "out")
+--debug   or  -d   show debug information (optional - default "false")
+--format  or  -f   format (optional - default "text") - ("${supportedFormat}")
+--font    or  -t   extract fonts as ttf files
+--help    or  -h   display this help message
+--version or  -v   display version information
 `;
 
 // converts argument to boolean
@@ -25,47 +26,53 @@ const toBool = (val) => {
   return val === 'true' || val === 1 || val === true;
 };
 
-const argv = minimist(process.argv.slice(2))
+const argv = minimist(process.argv.slice(2));
+// version
+const version = argv['version'] || argv['v'];
+if(toBool(version)) {
+  console.log(`Version : ${ver}`);
+  return;
+}
+// help
 const help = argv['help'] || argv['h'];
-if(help) {
+if(toBool(help)) {
   console.log(helpText);
   return;
 }
-
+// input
 const input = argv['input'] || argv['i'];
-const output = argv['output'] || argv['o'] || 'out';
-let debug = argv['debug'] || argv['d'];
-let format = argv['format'] || argv['f'] || 'text';
-let fonts = argv['font'] || argv['t'];
-debug = toBool(debug);
-fonts = toBool(fonts);
-if(format && supportedFormat.indexOf(format) < 0) {
-  console.error(ERR_INVALID_FORMAT);
-  return;
-}
 if(!input) {
   console.log(helpText);
   console.log(argv);
   return;
 }
-if(debug) console.log(input);
-
-// configuration
+// output format
+const format = argv['format'] || argv['f'] || 'text';
+if(format && supportedFormat.indexOf(format) < 0) {
+  console.error(ERR_INVALID_FORMAT);
+  return;
+}
+// output directory
+const output = argv['output'] || argv['o'] || 'out';
+FileManager.mkdirNotExists(output);
+// other config - debug / fonts
+const debug = argv['debug'] || argv['d'];
+const fonts = argv['font'] || argv['t'];
+// build configuration
 const config = {};
 config.paintFormXObject = false;
 config.format = format;
 config.outputDir = output;
 config.input = input;
-config.debug = debug;
-config.fonts = fonts;
+config.debug = toBool(debug);
+config.fonts = toBool(fonts);
 
-FileManager.mkdirNotExists(output);
+if(config.debug) console.log(input);
+
 const gd = new GoldDigger(config);
 gd.dig().then(() => {
-  console.log("-----------------------------------------------");
-  console.log("Results : ");
-  FileManager.readdirSync(output).forEach(file => console.log(file));
-  console.log("-----------------------------------------------");
+  console.log('-----------------------------------------------');
+  console.log('Results : ');
+  FileManager.readdirSync(output).forEach(file => console.log(`${output}/${file}`));
+  console.log('-----------------------------------------------');
 });
-
-
