@@ -1,4 +1,3 @@
-const util = require('pdfjs-dist/lib/shared/util');
 const Constraints = require('../Constraints');
 const PdfObject = require('./PdfObject');
 const TextLine = require('./text/TextLine');
@@ -14,7 +13,6 @@ class TextObject extends PdfObject {
   constructor () {
     super();
     this.textMatrix = Constraints.IDENTITY_MATRIX;
-    this.textRenderingMode = util.TextRenderingMode.FILL;
     this.lineMatrix = Constraints.IDENTITY_MATRIX;
     this.textMatrixScale = 1;
     this._textLines = [];

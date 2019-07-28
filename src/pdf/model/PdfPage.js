@@ -1,5 +1,5 @@
 const PdfObject = require('./PdfObject');
-
+const util = require('pdfjs-dist/lib/shared/util');
 /**
  * Holds PDF page information
  * @extends {PdfObject}
@@ -25,6 +25,7 @@ class PdfPage extends PdfObject {
     this.wordSpacing = 0;
     this.textHScale = 1;
     this.textRise = 0;
+    this.textRenderingMode = util.TextRenderingMode.FILL;
 
     this.currentObject = null;
     this.currentFont = null;

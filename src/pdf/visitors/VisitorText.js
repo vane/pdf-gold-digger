@@ -101,7 +101,8 @@ class VisitorText extends VisitorBase {
    */
   setCharSpacing (args) {
     if (this.config.debug) console.log('setCharSpacing');
-    // if (this.config.skip) return;
+    if (this.config.skip) return;
+    this.page.charSpacing = args[0];
   }
 
   /**
@@ -109,7 +110,8 @@ class VisitorText extends VisitorBase {
    */
   setWordSpacing (args) {
     if (this.debug) console.log('setWordSpacing');
-    // if (this.config.skip) return;
+    if (this.config.skip) return;
+    this.page.wordSpacing = args[0];
   }
 
   /**
@@ -117,7 +119,8 @@ class VisitorText extends VisitorBase {
    */
   setHScale (args) {
     if (this.config.debug) console.log('setHScale');
-    // if (this.config.skip) return;
+    if (this.config.skip) return;
+    this.page.textHScale = args[0] / 100;
   }
 
   /**
@@ -142,7 +145,8 @@ class VisitorText extends VisitorBase {
    */
   setTextRise (args) {
     if (this.config.debug) console.log('setTextRise');
-    // if (this.config.skip) return;
+    if (this.config.skip) return;
+    this.page.textRise = args[0];
   }
 
   /**
@@ -150,7 +154,8 @@ class VisitorText extends VisitorBase {
    */
   setTextRenderingMode (args) {
     if (this.config.debug) console.log('setTextRenderingMode');
-    // if (this.config.skip) return;
+    if (this.config.skip) return;
+    this.page.textRenderingMode = args[0];
   }
 
   /**
