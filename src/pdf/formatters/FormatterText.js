@@ -19,8 +19,15 @@ class FormatterText {
    */
   formatTextObject (textObject) {
     let txtObjOut = '';
-    textObject.getData().forEach(textLine => {
+    const lines = textObject.getData();
+    lines.sort((a, b) => {
+      if (a.y > b.y) return -1;
+      if (a.y < b.y) return 1;
+      return 0;
+    });
+    lines.forEach(textLine => {
       const txtLineOut = this.formatTextLine(textLine);
+      console.log(txtLineOut);
       txtObjOut += txtLineOut + '\n';
     });
     return txtObjOut;
@@ -33,7 +40,7 @@ class FormatterText {
    */
   formatTextLine (textLine) {
     let txtLineOut = '';
-    textLine.getData().forEach(textFont => {
+    textLine.getText().forEach(textFont => {
       txtLineOut += this.formatTextFont(textFont);
     });
     return txtLineOut;

@@ -43,7 +43,7 @@ class TextObject extends PdfObject {
    * @returns {Array}
    */
   getData () {
-    return this._textLines;
+    return this._textLines.slice();
   }
 }
 

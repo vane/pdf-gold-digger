@@ -23,7 +23,6 @@ class ExtractText {
       line.wordSpacing = lastLine.wordSpacing;
       line.charSpacing = lastLine.charSpacing;
     }
-    const startX = page.x;
     const startY = page.y;
     // END
     let partial = '';
@@ -66,10 +65,9 @@ class ExtractText {
     line.setText(partial);
     const isNew = lineList.y !== 0 && Math.abs(line.y - lineList.y) > line.font.size;
     if (isNew) {
-      lineList.printText();
+      // lineList.printText();
       lineList = page.currentObject.newLine();
     }
-    lineList.x = startX;
     lineList.y = startY;
     lineList.addTextFont(line);
   }

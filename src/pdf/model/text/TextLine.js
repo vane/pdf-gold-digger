@@ -11,7 +11,6 @@ class TextLine extends PdfObject {
   constructor () {
     super();
     this._textFonts = [];
-    this.width = 0;
   }
 
   /**
@@ -46,11 +45,8 @@ class TextLine extends PdfObject {
    * Get Array of all {@link TextFont} data inside this text line
    * @returns {Array} of {@link TextFont}
    */
-  getData () {
-    // this._textFonts.sort((a, b) => a.x >= b.x);
-    this.x = this._textFonts[0].x;
-    this.width = this._textFonts[this._textFonts.length - 1].x - this.x;
-    return this._textFonts;
+  getText () {
+    return this._textFonts.slice();
   }
 }
 

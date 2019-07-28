@@ -29,10 +29,17 @@ class FormatterJSON {
       y: textObject.y,
       textMatrix: textObject.textMatrix,
     };
+    const linesOut = [];
     textObject.getData().forEach(textLine => {
       const txtLineOut = this.formatTextLine(textLine);
-      txtObjOut.lines.push(txtLineOut);
+      linesOut.push(txtLineOut);
     });
+    linesOut.sort((a, b) => {
+      if (a.y > b.y) return -1;
+      if (a.y < b.y) return 1;
+      return 0;
+    });
+    txtObjOut.lines = linesOut;
     return txtObjOut;
   }
 
@@ -44,11 +51,9 @@ class FormatterJSON {
   formatTextLine (textLine) {
     const txtLineOut = {
       text: [],
-      x: textLine.x,
       y: textLine.y,
-      width: textLine.width,
     };
-    textLine.getData().forEach(textFont => {
+    textLine.getText().forEach(textFont => {
       const txtFontOut = this.formatTextFont(textFont);
       txtLineOut.text.push(txtFontOut);
     });
@@ -70,6 +75,8 @@ class FormatterJSON {
         weight: textFont.font.weight,
         vertical: textFont.font.vertical,
       },
+      x: textFont.x,
+      y: textFont.y,
       text: textFont.getText(),
       charSpacing: textFont.charSpacing,
       wordSpacing: textFont.wordSpacing,
