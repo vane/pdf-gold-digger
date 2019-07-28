@@ -91,13 +91,11 @@ class GoldDigger {
     if (this.config.fonts) {
       const fontPath = `${this.config.outputDir}/font`;
       FileManager.mkdirNotExists(fontPath);
-      Object.keys(fonts).forEach(async (name) => {
-        const font = fonts[name];
+      Object.values(fonts).forEach(async (font) => {
         if (font.missingFile) {
-          console.warn(`Font file missing ${name}`);
+          console.warn(`Font file missing ${font.name}`);
         } else {
-          const extension = 'ttf';
-          const fpath = `${fontPath}/${name}.${extension}`;
+          const fpath = `${fontPath}/${font.fname}`;
           if (!FileManager.fileExistsSync(fpath)) await FileManager.saveFileAsync(fpath, font.data);
         }
       });

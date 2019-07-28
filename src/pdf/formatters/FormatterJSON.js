@@ -137,6 +137,7 @@ class FormatterJSON {
         family: font.family,
         style: font.style,
         weight: font.weight,
+        file: `font/${font.file}`,
       });
       out += `"${font.family}": ${fontJSON},`;
     });

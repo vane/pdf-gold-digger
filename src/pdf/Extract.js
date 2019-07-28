@@ -8,6 +8,7 @@ const FONT_CACHE = {};
 const KNOWN_STYLES_MAP = {
   Regular: 'normal',
   Normal: 'normal',
+  Unknown: 'normal',
   Bold: 'bold',
   Italic: 'italic',
   'Bold Italic': 'bold_italic',
@@ -109,7 +110,11 @@ class ExtractText {
     const font = new Model.FontObject();
     // add font to page object
     if (!(fontObj.name in page.fonts)) {
+      const extension = 'ttf';
+      const fname = `${fontObj.name}.${extension}`;
       page.fonts[fontObj.name] = {
+        fname,
+        name: fontObj.name,
         missingFile: fontObj.missingFile, // sometimes we miss font inside single page but it's present in another page
         data: fontObj.data,
         type: fontObj.type,
@@ -163,6 +168,9 @@ class ExtractText {
       const subFamily = fontLoaded.names.fontSubfamily;
       const subFamilyArray = Object.keys(subFamily);
       let style = subFamily[subFamilyArray[0]];
+      if(subFamilyArray.length > 1) {
+        console.warn(`More then one styles ${subFamilyArray}, picking first one.`)
+      }
       if (style in KNOWN_STYLES_MAP) {
         style = KNOWN_STYLES_MAP[style];
       } else {
