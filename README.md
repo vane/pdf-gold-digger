@@ -4,6 +4,9 @@ pdf-gold-digger
 Pdf information extraction library based on [pdf.js](https://mozilla.github.io/pdf.js/)
 and [node.js](https://nodejs.org).
 
+![GitHub](https://img.shields.io/github/license/vane/pdf-gold-digger)
+![npm](https://img.shields.io/npm/v/pdf-gold-digger)
+
 ## Install
 ```npm install -g pdf-gold-digger```
 
