@@ -125,12 +125,7 @@ class FormatterXML {
     let out = '<fonts>\n';
     Object.values(fontData).forEach(fontObj => {
       const font = fontObj.font;
-      out += `<font family="${font.family}" 
-size="${font.size}" 
-direction="${font.direction}"
-style="${font.style}"
-weight="${font.weight}"
-vertical="${font.vertical}">${font.family}</font>\n`;
+      out += `<font style="${font.style}" weight="${font.weight}">${font.family}</font>\n`;
     });
     out += '</fonts>';
     return out;

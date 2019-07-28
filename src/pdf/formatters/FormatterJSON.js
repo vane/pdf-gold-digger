@@ -134,12 +134,9 @@ class FormatterJSON {
     Object.values(fontData).forEach(fontObj => {
       const font = fontObj.font;
       const fontJSON = JSON.stringify({
-        size: font.size,
-        direction: font.direction,
         family: font.family,
         style: font.style,
         weight: font.weight,
-        vertical: font.vertical,
       });
       out += `"${font.family}": ${fontJSON},`;
     });
