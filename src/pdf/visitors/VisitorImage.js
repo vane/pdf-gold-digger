@@ -1,4 +1,5 @@
 const VisitorBase = require('./VisitorBase');
+const Model = require('../model');
 const pdfjs = require('../../pdfjs');
 const FileManager = require('../FileManager');
 
@@ -59,7 +60,11 @@ class VisitorImage extends VisitorBase {
     // TODO imlement mask
     const mask = false;
     const imgBinary = pdfjs.convertImgDataToPng(imgData, this.forceDataSchema, !!mask);
-    const fpath = `${this.config.outputDir}/img/page.${this.page.data.pageIndex}.${args[1]}.png`;
+    const fname = `page.${this.page.data.pageIndex}.${args[1]}.png`;
+    const fpath = `${this.config.outputDir}/img/${fname}`;
+    const image = new Model.ImageObject();
+    image.fill(fname, this.page.x, this.page.y, imgData.width, imgData.height);
+    this.page.addImage(image);
     await FileManager.saveFileAsync(fpath, imgBinary);
   }
 }

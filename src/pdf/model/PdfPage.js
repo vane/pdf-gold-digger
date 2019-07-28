@@ -34,6 +34,14 @@ class PdfPage extends PdfObject {
   }
 
   /**
+   * Add image to object list
+   * @param {ImageObject} image
+   */
+  addImage (image) {
+    this.objectList.push(image);
+  }
+
+  /**
    * Set current object and add it to objectList
    * @param {TextObject} obj
    */

@@ -1,3 +1,4 @@
+const Model = require('../model');
 /**
  * Format PDF into text data
  */
@@ -64,9 +65,14 @@ class FormatterText {
    */
   format (page, data, last) {
     let output = '';
-    data.forEach(textObject => {
-      const txtObjOut = this.formatTextObject(textObject);
-      output += txtObjOut;
+    data.forEach(pdfObject => {
+      if (pdfObject instanceof Model.TextObject) {
+        output += this.formatTextObject(pdfObject);
+      } else if (pdfObject instanceof Model.ImageObject) {
+        // TODO add config to save image position
+      } else {
+        console.warn(`Not recognised object ${pdfObject}`);
+      }
     });
     return output;
   }

@@ -1,3 +1,5 @@
+const Model = require('../model');
+
 /**
  * Format PDF into xml data
  */
@@ -30,8 +32,20 @@ class FormatterXML {
     lines.forEach(textLine => {
       txtObjOut += this.formatTextLine(textLine);
     });
-    txtObjOut += '</object>';
+    txtObjOut += '</object>\n';
     return txtObjOut;
+  }
+
+  /**
+   * Format image object
+   * @param {ImageObject} imageObject
+   */
+  formatImageObject (imageObject) {
+    return `<image 
+    x="${imageObject.x}" 
+    y="${imageObject.y}" 
+    width="${imageObject.width}" 
+    height="${imageObject.height}">${imageObject.name}</image>\n`;
   }
 
   /**
@@ -76,8 +90,14 @@ class FormatterXML {
    */
   format (page, data, last) {
     let out = '<data>\n';
-    data.forEach(textObject => {
-      out += this.formatTextObject(textObject) + '\n';
+    data.forEach(pdfObject => {
+      if (pdfObject instanceof Model.TextObject) {
+        out += this.formatTextObject(pdfObject);
+      } else if (pdfObject instanceof Model.ImageObject) {
+        out += this.formatImageObject(pdfObject);
+      } else {
+        console.warn(`Not recognised object ${pdfObject}`);
+      }
     });
     out += '</data>';
     return out;

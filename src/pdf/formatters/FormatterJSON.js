@@ -1,3 +1,5 @@
+const Model = require('../model');
+
 /**
  * Format PDF into json data
  */
@@ -41,6 +43,20 @@ class FormatterJSON {
     });
     txtObjOut.lines = linesOut;
     return txtObjOut;
+  }
+
+  /**
+   * Format image object
+   * @param {ImageObject} imageObject
+   */
+  formatImageObject (imageObject) {
+    return {
+      x: imageObject.x,
+      y: imageObject.y,
+      width: imageObject.width,
+      height: imageObject.height,
+      name: imageObject.name,
+    };
   }
 
   /**
@@ -92,14 +108,20 @@ class FormatterJSON {
    */
   format (page, data, last) {
     const txtData = [];
-    data.forEach(textObject => {
-      const txtObjOut = this.formatTextObject(textObject);
-      txtData.push(txtObjOut);
+    data.forEach(pdfObject => {
+      if (pdfObject instanceof Model.TextObject) {
+        const txtObjOut = this.formatTextObject(pdfObject);
+        txtData.push(txtObjOut);
+      } else if (pdfObject instanceof Model.ImageObject) {
+        const imgObjOut = this.formatImageObject(pdfObject);
+        txtData.push(imgObjOut);
+      } else {
+        console.warn(`Not recognised object ${pdfObject}`);
+      }
     });
-    const output = {
+    const out = JSON.stringify({
       data: txtData,
-    };
-    const out = JSON.stringify(output); // pretty print (output, null, 4)
+    }); // pretty print (output, null, 4)
     return `"${page.pageIndex}": ${out}${last ? '' : ','}`;
   }
 

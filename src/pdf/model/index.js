@@ -1,5 +1,6 @@
 const FontObject = require('./FontObject');
 const PdfObject = require('./PdfObject');
+const ImageObject = require('./ImageObject');
 const PdfPage = require('./PdfPage');
 const TextObject = require('./TextObject');
 const TextFont = require('./text/TextFont');
@@ -12,4 +13,5 @@ module.exports = {
   TextFont,
   TextLine,
   PdfPage,
+  ImageObject,
 };
