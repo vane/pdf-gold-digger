@@ -120,7 +120,7 @@ class GoldDigger {
   }
 
   /**
-   * Loads pdf dependencies (SVGGraphics)
+   * Loads pdf dependencies (pdf.js SVGGraphics)
    * @param pageData
    * @param operatorList
    * @returns {Promise<Array>}
@@ -143,7 +143,7 @@ class GoldDigger {
   }
 
   /**
-   * (SVGGraphics)
+   * (pdf.js SVGGraphics)
    */
   operatorMapping () {
     const mapping = {};
@@ -154,7 +154,7 @@ class GoldDigger {
   }
 
   /**
-   * (SVGGraphics)
+   * (pdf.js SVGGraphics)
    * @param operatorList
    * @returns {*}
    */
@@ -175,7 +175,7 @@ class GoldDigger {
   }
 
   /**
-   * (SVGGraphics)
+   * (pdf.js SVGGraphics)
    * @param opList
    * @returns {Array}
    */
@@ -202,7 +202,7 @@ class GoldDigger {
 
   /**
    * Process pdf file format
-   * Based on (SVGGraphics)
+   * Based on (pdf.js SVGGraphics)
    * @param opTree - pdf tree of information
    * @param {Visitor} visitor - class for parsing incoming tags
    */
