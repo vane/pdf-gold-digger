@@ -6,6 +6,7 @@ and [node.js](https://nodejs.org).
 
 ![GitHub](https://img.shields.io/github/license/vane/pdf-gold-digger)
 ![npm](https://img.shields.io/npm/v/pdf-gold-digger)
+![doc](https://vane.pl/pdf-gold-digger/badge.svg)
 
 ## Install
 ```npm install -g pdf-gold-digger```
