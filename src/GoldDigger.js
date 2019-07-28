@@ -53,6 +53,9 @@ class GoldDigger {
     const doc = await this.getDocument();
     const debug = this.config.debug;
     if (debug) console.log(`Pages : ${doc.numPages}`);
+
+    // fonts create directory if need to parse fonts
+    let fonts = {};
     // prepare formatting
     const format = this.config.format;
     const metadata = await doc.getMetadata();
@@ -62,15 +65,41 @@ class GoldDigger {
       const pageData = await doc.getPage(pageNum);
       const viewport = pageData.getViewport({ scale: 1.0 });
       if (debug) console.log(`--- BEGIN Page ${pageNum} size: ${viewport.width}x${viewport.height}`);
-      const output = await this.digPage(pageData, pageNum);
+      const page = await this.digPage(pageData, pageNum);
+      if (this.config.fonts) {
+        fonts = Object.assign(fonts, page.fonts);
+      }
       const last = pageNum === doc.numPages;
-      this.formatter.format(format, pageData, output, last);
-      if (debug) console.log(`--- END Page ${pageNum} objects : ${output.length}`);
+      this.formatter.format(format, pageData, page.objectList, last);
+      if (debug) console.log(`--- END Page ${pageNum} objects : ${page.objectList.length}`);
     }
     this.formatter.end(format);
     // save to file
     const fpath = `${this.config.outputDir}/data.${format}`;
     await FileManager.saveFileAsync(fpath, this.formatter.data);
+    // save font files
+    this.saveFonts(fonts);
+  }
+
+  /**
+   * Save font data as ttf files
+   * @param {array} fonts
+   */
+  saveFonts (fonts) {
+    if (this.config.fonts) {
+      const fontPath = `${this.config.outputDir}/font`;
+      FileManager.mkdirNotExists(fontPath);
+      Object.keys(fonts).forEach(async (name) => {
+        const font = fonts[name];
+        if (font.missingFile) {
+          console.warn(`Font file missing ${name}`);
+        } else {
+          const extension = 'ttf';
+          const fpath = `${fontPath}/${name}.${extension}`;
+          if (!FileManager.fileExistsSync(fpath)) await FileManager.saveFileAsync(fpath, font.data);
+        }
+      });
+    }
   }
 
   /**
@@ -87,7 +116,7 @@ class GoldDigger {
     const opTree = this.convertOpList(operatorList);
     const visitor = new Visitor(this.config, pageData, dependencies);
     this.executeOpTree(opTree, visitor);
-    return visitor.page.objectList;
+    return visitor.page;
   }
 
   /**

@@ -23,6 +23,13 @@ const mkdirNotExists = (path) => {
 };
 
 /**
+ * Check if file exists in given path
+ * @param path
+ * @returns {boolean}
+ */
+const fileExistsSync = (path) => fs.existsSync(path);
+
+/**
  * Reads directory
  * @param {string} path - directory path
  * @returns {string[]} - directory listing
@@ -32,5 +39,6 @@ const readdirSync = (path) => fs.readdirSync(path);
 module.exports = {
   saveFileAsync,
   mkdirNotExists,
+  fileExistsSync,
   readdirSync,
 };

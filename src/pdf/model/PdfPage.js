@@ -29,6 +29,8 @@ class PdfPage extends PdfObject {
 
     this.currentObject = null;
     this.currentFont = null;
+
+    this.fonts = {};
   }
 
   /**

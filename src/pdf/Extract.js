@@ -96,6 +96,15 @@ class ExtractText {
   setFont (details, page) {
     const fontObj = page.data.commonObjs.get(details[0]);
     const font = new Model.FontObject();
+    // add font to page object
+    if (!(fontObj.name in page.fonts)) {
+      page.fonts[fontObj.name] = {
+        missingFile: fontObj.missingFile, // sometimes we miss font inside single page but it's present in another page
+        data: fontObj.data,
+        type: fontObj.type,
+        mimetype: fontObj.mimetype,
+      };
+    }
     // calculate space width
     let spaceKey = -1;
     for (const key in fontObj.toUnicode._map) {

@@ -15,7 +15,8 @@ ex. pdfdig -i input-file -o output_directory -f json
 --input  or  -i   pdf file location (required)
 --output or  -o   pdf file location (optional default "out")
 --debug  or  -d   show debug information (optional - default "false")
---format or  -f   format (optional - default "text") - ("${supportedFormat}"): 
+--format or  -f   format (optional - default "text") - ("${supportedFormat}")
+--font   or  -t   extract fonts as ttf files
 --help   or  -h   display this help message
 `
 
@@ -35,7 +36,9 @@ const input = argv['input'] || argv['i'];
 const output = argv['output'] || argv['o'] || 'out';
 let debug = argv['debug'] || argv['d'];
 let format = argv['format'] || argv['f'] || 'text';
+let fonts = argv['font'] || argv['t'];
 debug = toBool(debug);
+fonts = toBool(fonts);
 if(format && supportedFormat.indexOf(format) < 0) {
   console.error(ERR_INVALID_FORMAT);
   return;
@@ -54,6 +57,7 @@ config.format = format;
 config.outputDir = output;
 config.input = input;
 config.debug = debug;
+config.fonts = fonts;
 
 FileManager.mkdirNotExists(output);
 const gd = new GoldDigger(config);
