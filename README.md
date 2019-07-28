@@ -6,7 +6,7 @@ and [node.js](https://nodejs.org) with various output formats.
 
 [![GitHub](https://img.shields.io/github/license/vane/pdf-gold-digger)](https://github.com/vane/pdf-gold-digger/blob/master/LICENSE)
 [![npm](https://img.shields.io/npm/v/pdf-gold-digger)](https://npmjs.com/package/pdf-gold-digger)
-[![GitHub commits since tagged version](https://img.shields.io/github/commits-since/vane/pdf-gold-digger/0.0.6)](https://github.com/vane/pdf-gold-digger)
+[![GitHub commits since tagged version](https://img.shields.io/github/commits-since/vane/pdf-gold-digger/0.0.7)](https://github.com/vane/pdf-gold-digger)
 [![GitHub last commit](https://img.shields.io/github/last-commit/vane/pdf-gold-digger)](https://github.com/vane/pdf-gold-digger)
 [![doc](https://vane.pl/pdf-gold-digger/badge.svg)](https://vane.pl/pdf-gold-digger/)
 
