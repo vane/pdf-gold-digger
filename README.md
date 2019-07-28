@@ -6,6 +6,8 @@ and [node.js](https://nodejs.org).
 
 ![GitHub](https://img.shields.io/github/license/vane/pdf-gold-digger)
 ![npm](https://img.shields.io/npm/v/pdf-gold-digger)
+![GitHub commits since tagged version](https://img.shields.io/github/commits-since/vane/pdf-gold-digger/0.0.6)
+![GitHub last commit](https://img.shields.io/github/last-commit/vane/pdf-gold-digger)
 ![doc](https://vane.pl/pdf-gold-digger/badge.svg)
 
 ## Install
