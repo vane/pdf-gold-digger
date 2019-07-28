@@ -60,7 +60,6 @@ and see results in ```out``` directory
 - output to html format
 - output to markdown format
 - output to zip
-- extract font
 - extract tables
 - extract forms
 - extract drawings
