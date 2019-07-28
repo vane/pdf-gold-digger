@@ -15,13 +15,12 @@
   },
   "keywords": [
     "pdf",
-    "pdf-extractor",
-    "extract",
-    "javascript",
-    "js",
-    "image-extract",
-    "text-extract",
-    "pdf-text-extract"
+    "pdfjs",
+    "nodejs",
+    "pdf-text-extract",
+    "extract-information",
+    "extract-data-from-pdf",
+    "pdf-gold-digger"
   ],
   "scripts": {
     "doc": "esdoc",
