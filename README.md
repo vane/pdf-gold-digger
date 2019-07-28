@@ -21,7 +21,7 @@ ex. pdfdig -i input-file -o output_directory -f json
   --input  or  -i   pdf file location (required)
   --output or  -o   pdf file location (optional default "out")
   --debug  or  -d   show debug information (optional - default "false")
-  --format or  -f   format (optional - default "text") - ("text,json"): 
+  --format or  -f   format (optional - default "text") - ("text,json,xml"): 
   --help   or  -h   display this help message
 ```
 
@@ -44,19 +44,16 @@ and see results in ```out``` directory
 - output formats
   - text ```-f text (default)```
   - json ```-f json```
+  - xml  ```-f xml``` 
 - specify output directory
 
 ## TODO:
-- extract text
-  - bounding box position
 - load pdf from remote location
-  - from url    
-- output to xml format
+  - from url
 - output to html format
 - output to markdown format
 - output to zip
 - extract font
 - extract tables
-- advanced font information
 - extract forms
 - extract drawings
