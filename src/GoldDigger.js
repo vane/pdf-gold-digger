@@ -1,7 +1,5 @@
 const fs = require('fs');
 const pdf = require('pdfjs-dist');
-const util = require('pdfjs-dist/lib/shared/util');
-const Extract = require('./pdf/Extract');
 const Visitor = require('./pdf/Visitor');
 const Formatter = require('./pdf/Formatter');
 const FileManager = require('./pdf/FileManager');
@@ -9,7 +7,7 @@ const FileManager = require('./pdf/FileManager');
 /**
  * Generic error
  */
-class GoldDiggerError extends Error{
+class GoldDiggerError extends Error {
 
 }
 
@@ -18,12 +16,11 @@ class GoldDiggerError extends Error{
  * Code based on pdf.js SVGGraphics
  */
 class GoldDigger {
-
   /**
    * Constructor
    * @param {object} config - configuration
    */
-  constructor(config) {
+  constructor (config) {
     this.config = config;
     /**
      * @type {Formatter}
@@ -34,41 +31,41 @@ class GoldDigger {
   /**
    * Checks if file exists load file to memory and returns PDFDocument
    */
-  async getDocument() {
+  async getDocument () {
     if (!fs.existsSync(this.config.input)) {
       throw new GoldDiggerError(`File not exists ${this.config.input}`);
     }
-    if(this.config.debug) console.log('Reading pdf');
+    if (this.config.debug) console.log('Reading pdf');
     // read file
     const data = fs.readFileSync(this.config.input);
-    if(this.config.debug) console.log(data.length);
+    if (this.config.debug) console.log(data.length);
     const doc = await pdf.getDocument({
       data: data,
     }).promise;
-    return doc
+    return doc;
   }
 
   /**
    * Main method for pdf-gold-diger
    * @returns {Promise<void>}
    */
-  async dig() {
+  async dig () {
     const doc = await this.getDocument();
     const debug = this.config.debug;
-    if(debug) console.log(`Pages : ${doc.numPages}`);
+    if (debug) console.log(`Pages : ${doc.numPages}`);
     // prepare formatting
     const format = this.config.format;
     const metadata = await doc.getMetadata();
     this.formatter.start(format, doc, metadata.info);
     // read pages
-    for(let pageNum = 1; pageNum <= doc.numPages; pageNum++) {
+    for (let pageNum = 1; pageNum <= doc.numPages; pageNum++) {
       const pageData = await doc.getPage(pageNum);
-      const viewport = pageData.getViewport({ scale: 1.0, });
-      if(debug) console.log(`--- BEGIN Page ${pageNum} size: ${viewport.width}x${viewport.height}`);
+      const viewport = pageData.getViewport({ scale: 1.0 });
+      if (debug) console.log(`--- BEGIN Page ${pageNum} size: ${viewport.width}x${viewport.height}`);
       const output = await this.digPage(pageData, pageNum);
-      const last = pageNum == doc.numPages;
+      const last = pageNum === doc.numPages;
       this.formatter.format(format, pageData, output, last);
-      if(debug) console.log(`--- END Page ${pageNum} objects : ${output.length}`)
+      if (debug) console.log(`--- END Page ${pageNum} objects : ${output.length}`);
     }
     this.formatter.end(format);
     // save to file
@@ -81,9 +78,8 @@ class GoldDigger {
    * @param pageData - pdf page
    * @param {number} pageNum - page number
    */
-  async digPage(pageData, pageNum) {
-
-    //const text = await page.extractTextContent();
+  async digPage (pageData, pageNum) {
+    // const text = await page.extractTextContent();
     const operatorList = await pageData.getOperatorList();
     // page.commonObjs, page.objs
     // load dependencies
@@ -100,7 +96,7 @@ class GoldDigger {
    * @param operatorList
    * @returns {Promise<Array>}
    */
-  async loadDependencies(pageData, operatorList) {
+  async loadDependencies (pageData, operatorList) {
     const fnArray = operatorList.fnArray;
     const argsArray = operatorList.argsArray;
     const out = [];
@@ -120,9 +116,9 @@ class GoldDigger {
   /**
    * (SVGGraphics)
    */
-  operatorMapping() {
-    const mapping = {}
-    for(var op in pdf.OPS) {
+  operatorMapping () {
+    const mapping = {};
+    for (const op in pdf.OPS) {
       mapping[pdf.OPS[op]] = op;
     }
     return mapping;
@@ -133,7 +129,7 @@ class GoldDigger {
    * @param operatorList
    * @returns {*}
    */
-  convertOpList(operatorList) {
+  convertOpList (operatorList) {
     const operatorIdMapping = this.operatorMapping();
     const argsArray = operatorList.argsArray;
     const fnArray = operatorList.fnArray;
@@ -141,9 +137,9 @@ class GoldDigger {
     for (let i = 0, ii = fnArray.length; i < ii; i++) {
       const fnId = fnArray[i];
       opList.push({
-        'fnId': fnId,
-        'fn': operatorIdMapping[fnId],
-        'args': argsArray[i],
+        fnId,
+        fn: operatorIdMapping[fnId],
+        args: argsArray[i],
       });
     }
     return this.opListToTree(opList);
@@ -154,13 +150,13 @@ class GoldDigger {
    * @param opList
    * @returns {Array}
    */
-  opListToTree(opList) {
+  opListToTree (opList) {
     let opTree = [];
     const tmp = [];
 
     for (const opListElement of opList) {
       if (opListElement.fn === 'save') {
-        opTree.push({ 'fnId': 92, 'fn': 'group', 'items': [], });
+        opTree.push({ fnId: 92, fn: 'group', items: [] });
         tmp.push(opTree);
         opTree = opTree[opTree.length - 1].items;
         continue;
@@ -181,7 +177,7 @@ class GoldDigger {
    * @param opTree - pdf tree of information
    * @param {Visitor} visitor - class for parsing incoming tags
    */
-  executeOpTree(opTree, visitor) {
+  executeOpTree (opTree, visitor) {
     const debug = visitor.debug;
     for (const opTreeElement of opTree) {
       const fn = opTreeElement.fn;
@@ -198,124 +194,124 @@ class GoldDigger {
           break;
         case pdf.OPS.setLineWidth:
           if (debug) console.log('setLineWidth');
-          //this.setLineWidth(args[0]);
+          // this.setLineWidth(args[0]);
           break;
         case pdf.OPS.setLineJoin:
           if (debug) console.log('setLineJoin');
-          //this.setLineJoin(args[0]);
+          // this.setLineJoin(args[0]);
           break;
         case pdf.OPS.setLineCap:
           if (debug) console.log('setLineCap');
-          //this.setLineCap(args[0]);
+          // this.setLineCap(args[0]);
           break;
         case pdf.OPS.setMiterLimit:
-          if(debug) console.log('setMiterLimit');
-          //this.setMiterLimit(args[0]);
+          if (debug) console.log('setMiterLimit');
+          // this.setMiterLimit(args[0]);
           break;
         case pdf.OPS.setFillRGBColor:
-          if(debug) console.log('setFillRGBColor');
-          //this.setFillRGBColor(args[0], args[1], args[2]);
+          if (debug) console.log('setFillRGBColor');
+          // this.setFillRGBColor(args[0], args[1], args[2]);
           break;
         case pdf.OPS.setStrokeRGBColor:
-          if(debug) console.log('setStrokeRGBColor');
-          //this.setStrokeRGBColor(args[0], args[1], args[2]);
+          if (debug) console.log('setStrokeRGBColor');
+          // this.setStrokeRGBColor(args[0], args[1], args[2]);
           break;
         case pdf.OPS.setStrokeColorN:
-          if(debug) console.log('setStrokeColorN');
-          //this.setStrokeColorN(args);
+          if (debug) console.log('setStrokeColorN');
+          // this.setStrokeColorN(args);
           break;
         case pdf.OPS.setFillColorN:
-          if(debug) console.log('setFillColorN');
-          //this.setFillColorN(args);
+          if (debug) console.log('setFillColorN');
+          // this.setFillColorN(args);
           break;
         case pdf.OPS.shadingFill:
-          if(debug) console.log('shadingFill');
-          //this.shadingFill(args[0]);
+          if (debug) console.log('shadingFill');
+          // this.shadingFill(args[0]);
           break;
         case pdf.OPS.setDash:
-          if(debug) console.log('setDash');
-          //this.setDash(args[0], args[1]);
+          if (debug) console.log('setDash');
+          // this.setDash(args[0], args[1]);
           break;
         case pdf.OPS.setRenderingIntent:
-          if(debug) console.log('setRenderingIntent');
-          //this.setRenderingIntent(args[0]);
+          if (debug) console.log('setRenderingIntent');
+          // this.setRenderingIntent(args[0]);
           break;
         case pdf.OPS.setFlatness:
-          if(debug) console.log('setFlatness');
-          //this.setFlatness(args[0]);
+          if (debug) console.log('setFlatness');
+          // this.setFlatness(args[0]);
           break;
         case pdf.OPS.setGState:
-          if(debug) console.log('setGState');
-          //this.setGState(args[0]);
+          if (debug) console.log('setGState');
+          // this.setGState(args[0]);
           break;
         case pdf.OPS.fill:
-          if(debug) console.log('fill');
-          //this.fill();
+          if (debug) console.log('fill');
+          // this.fill();
           break;
         case pdf.OPS.eoFill:
-          if(debug) console.log('eoFill');
-          //this.eoFill();
+          if (debug) console.log('eoFill');
+          // this.eoFill();
           break;
         case pdf.OPS.stroke:
-          if(debug) console.log('stroke');
-          //this.stroke();
+          if (debug) console.log('stroke');
+          // this.stroke();
           break;
         case pdf.OPS.fillStroke:
-          if(debug) console.log('fillStroke');
-          //this.fillStroke();
+          if (debug) console.log('fillStroke');
+          // this.fillStroke();
           break;
         case pdf.OPS.eoFillStroke:
-          if(debug) console.log('eoFillStroke');
-          //this.eoFillStroke();
+          if (debug) console.log('eoFillStroke');
+          // this.eoFillStroke();
           break;
         case pdf.OPS.clip:
-          if(debug) console.log('clip');
-          //this.clip('nonzero');
+          if (debug) console.log('clip');
+          // this.clip('nonzero');
           break;
         case pdf.OPS.eoClip:
-          if(debug) console.log('eoClip');
-          //this.clip('evenodd');
+          if (debug) console.log('eoClip');
+          // this.clip('evenodd');
           break;
         case pdf.OPS.paintSolidColorImageMask:
-          if(debug) console.log('paintSolidColorImageMask');
-          //this.paintSolidColorImageMask();
+          if (debug) console.log('paintSolidColorImageMask');
+          // this.paintSolidColorImageMask();
           break;
         case pdf.OPS.paintImageMaskXObject:
-          if(debug) console.log('paintImageMaskXObject');
-          //this.paintImageMaskXObject(args[0]);
+          if (debug) console.log('paintImageMaskXObject');
+          // this.paintImageMaskXObject(args[0]);
           break;
         case pdf.OPS.closePath:
-          if(debug) console.log('closePath');
-          //this.closePath();
+          if (debug) console.log('closePath');
+          // this.closePath();
           break;
         case pdf.OPS.closeStroke:
-          if(debug) console.log('closeStroke');
-          //this.closeStroke();
+          if (debug) console.log('closeStroke');
+          // this.closeStroke();
           break;
         case pdf.OPS.closeFillStroke:
-          if(debug) console.log('closeFillStroke');
-          //this.closeFillStroke();
+          if (debug) console.log('closeFillStroke');
+          // this.closeFillStroke();
           break;
         case pdf.OPS.closeEOFillStroke:
-          if(debug) console.log('closeEOFillStroke');
-          //this.closeEOFillStroke();
+          if (debug) console.log('closeEOFillStroke');
+          // this.closeEOFillStroke();
           break;
         case pdf.OPS.transform:
-          if(debug) console.log('transform');
-          //this.transform(args[0], args[1], args[2], args[3], args[4], args[5]);
+          if (debug) console.log('transform');
+          // this.transform(args[0], args[1], args[2], args[3], args[4], args[5]);
           break;
         case pdf.OPS.constructPath:
-          if(debug) console.log('constructPath');
-          //this.constructPath(args[0], args[1]);
+          if (debug) console.log('constructPath');
+          // this.constructPath(args[0], args[1]);
           break;
         case pdf.OPS.endPath:
-          if(debug) console.log('endPath');
-          //this.endPath();
+          if (debug) console.log('endPath');
+          // this.endPath();
           break;
         case 92:
-          if(debug) console.log('executeOpTree');
+          if (debug) console.log('executeOpTree');
           this.executeOpTree(opTreeElement.items, visitor);
-          //this.group(opTreeElement.items);
+          // this.group(opTreeElement.items);
           break;
         default:
           visitor.visit(fn, args, visitor);
@@ -325,4 +321,4 @@ class GoldDigger {
   }
 }
 
-module.exports = GoldDigger
+module.exports = GoldDigger;

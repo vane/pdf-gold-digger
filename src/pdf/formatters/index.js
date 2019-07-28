@@ -5,5 +5,5 @@ const FormatterXML = require('./FormatterXML');
 module.exports = {
   FormatterXML,
   FormatterJSON,
-  FormatterText
-}
+  FormatterText,
+};

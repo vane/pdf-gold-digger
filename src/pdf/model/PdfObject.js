@@ -19,4 +19,4 @@ class PdfObject {
   }
 }
 
-module.exports = PdfObject
+module.exports = PdfObject;

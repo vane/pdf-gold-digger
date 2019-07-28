@@ -11,24 +11,24 @@ class ExtractText {
    * @param {array} glyphs - glyphs from pdf.OPS.showText, pdf.OPS.showSpacedText
    * @param {PdfPage} page - pdf page object
    */
-  showText(glyphs, page) {
+  showText (glyphs, page) {
     // MOVED from VisitorText
     let lineList = page.currentObject.getLine();
     // -i ../../github.com/pdf.js/test/pdfs/ZapfDingbats.pdf -f text null pointer
     const line = new Model.TextFont();
     line.font = page.currentFont;
     // copy from previous line
-    const lastLine = lineList.getLastFontText()
-    if(lastLine) {
+    const lastLine = lineList.getLastFontText();
+    if (lastLine) {
       line.wordSpacing = lastLine.wordSpacing;
       line.charSpacing = lastLine.charSpacing;
     }
-    let startX = page.x;
-    let startY = page.y;
+    const startX = page.x;
+    const startY = page.y;
     // END
-    let partial = "";
+    let partial = '';
     let x = 0;
-    for(const glyph of glyphs) {
+    for (const glyph of glyphs) {
       if (glyph === null) {
         // Word break
         x += line.font.direction * line.wordSpacing;
@@ -36,13 +36,13 @@ class ExtractText {
       } else if (util.isNum(glyph)) {
         x += -glyph * line.font.size * 0.001;
         if (!line.font.spaceWidthIsSet && line.isSpace(glyph)) {
-          partial += " ";
+          partial += ' ';
         }
         continue;
       }
       const spacing = (glyph.isSpace ? line.wordSpacing : 0) + line.charSpacing;
-      if(spacing > 0) {
-        console.warn(`Not implemented spacing : ${spacing} !`)
+      if (spacing > 0) {
+        console.warn(`Not implemented spacing : ${spacing} !`);
       }
       // TODO use glyph font character
       partial += glyph.unicode;
@@ -65,7 +65,7 @@ class ExtractText {
     line.y = page.y;
     line.setText(partial);
     const isNew = lineList.y !== 0 && Math.abs(line.y - lineList.y) > line.font.size;
-    if(isNew) {
+    if (isNew) {
       lineList.printText();
       lineList = page.currentObject.newLine();
     }
@@ -81,9 +81,9 @@ class ExtractText {
    * @returns {*} font from dependencies if found otherwise null
    * (probably need to warn user for missing font inside document)
    */
-  getFontFamily(name, dependencies) {
-    for(let i = 0;i<dependencies.length;i++) {
-      if(dependencies[i].loadedName == name) {
+  getFontFamily (name, dependencies) {
+    for (let i = 0; i < dependencies.length; i++) {
+      if (dependencies[i].loadedName === name) {
         return dependencies[i];
       }
     }
@@ -95,27 +95,26 @@ class ExtractText {
    * @param details - arguments from pdf.OPS.setFont
    * @param {PdfPage} page - pdf page
    */
-  setFont(details, page) {
+  setFont (details, page) {
     const fontObj = page.data.commonObjs.get(details[0]);
     const font = new Model.FontObject();
     // calculate space width
-    let spaceKey = -1
-    for(let key in fontObj.toUnicode._map) {
-      if(fontObj.toUnicode._map[key] === " ") {
+    let spaceKey = -1;
+    for (const key in fontObj.toUnicode._map) {
+      if (fontObj.toUnicode._map[key] === ' ') {
         spaceKey = key;
         break;
       }
     }
-    if(spaceKey > -1 && fontObj.widths[spaceKey]) {
+    if (spaceKey > -1 && fontObj.widths[spaceKey]) {
       font.spaceWidthIsSet = true;
       font.spaceWidth = fontObj.widths[spaceKey];
     }
     font.setSize(details[1]);
-    font.weight = fontObj.black ? (fontObj.bold ? 'bolder' : 'bold') :
-      (fontObj.bold ? 'bold' : 'normal');
+    font.weight = fontObj.black ? (fontObj.bold ? 'bolder' : 'bold') : (fontObj.bold ? 'bold' : 'normal');
     font.style = fontObj.italic ? 'italic' : 'normal';
     const family = this.getFontFamily(fontObj.loadedName, page.dependencies);
-    if(family) {
+    if (family) {
       font.family = family.name;
     } else {
       font.family = fontObj.loadedName;
@@ -126,5 +125,5 @@ class ExtractText {
 }
 
 module.exports = {
-  ExtractText
-}
+  ExtractText,
+};

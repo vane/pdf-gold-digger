@@ -7,7 +7,7 @@ class VisitorBase {
    * @param config - configuration
    * @param {PdfPage} page
    */
-  constructor(config, page) {
+  constructor (config, page) {
     this.config = config;
     this.page = page;
   }

@@ -5,4 +5,4 @@ const FONT_IDENTITY_MATRIX = [0.001, 0, 0, 0.001, 0, 0];
 module.exports = {
   IDENTITY_MATRIX,
   FONT_IDENTITY_MATRIX,
-}
+};

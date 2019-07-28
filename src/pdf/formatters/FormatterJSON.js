@@ -8,13 +8,13 @@ class FormatterJSON {
    * @param metadata
    * @returns {string}
    */
-  start(doc, metadata) {
-    const meta = JSON.stringify(metadata)
+  start (doc, metadata) {
+    const meta = JSON.stringify(metadata);
     return `{
       "pages_count": ${doc.numPages},
       "metadata": ${meta},
       "pages": {
-    `
+    `;
   }
 
   /**
@@ -22,7 +22,7 @@ class FormatterJSON {
    * @param  {TextObject} textObject
    * @returns {object}
    */
-  formatTextObject(textObject) {
+  formatTextObject (textObject) {
     const txtObjOut = {
       lines: [],
       x: textObject.x,
@@ -41,13 +41,13 @@ class FormatterJSON {
    * @param {TextLine} textLine
    * @returns {object}
    */
-  formatTextLine(textLine) {
+  formatTextLine (textLine) {
     const txtLineOut = {
       text: [],
       x: textLine.x,
       y: textLine.y,
       width: textLine.width,
-    }
+    };
     textLine.getData().forEach(textFont => {
       const txtFontOut = this.formatTextFont(textFont);
       txtLineOut.text.push(txtFontOut);
@@ -60,7 +60,7 @@ class FormatterJSON {
    * @param {TextFont} textFont
    * @returns {object}
    */
-  formatTextFont(textFont) {
+  formatTextFont (textFont) {
     return {
       font: {
         size: textFont.font.size,
@@ -73,7 +73,7 @@ class FormatterJSON {
       text: textFont.getText(),
       charSpacing: textFont.charSpacing,
       wordSpacing: textFont.wordSpacing,
-    }
+    };
   }
 
   /**
@@ -83,27 +83,27 @@ class FormatterJSON {
    * @param last
    * @returns {string}
    */
-  format(page, data, last) {
+  format (page, data, last) {
     const txtData = [];
     data.forEach(textObject => {
       const txtObjOut = this.formatTextObject(textObject);
       txtData.push(txtObjOut);
     });
-    let output = {
-      "data": txtData,
-    }
-    const out = JSON.stringify(output)// pretty print (output, null, 4)
-    return `"${page.pageIndex}": ${out}${last ? '': ','}`
+    const output = {
+      data: txtData,
+    };
+    const out = JSON.stringify(output); // pretty print (output, null, 4)
+    return `"${page.pageIndex}": ${out}${last ? '' : ','}`;
   }
 
   /**
    * See {@link Formatter}
    * @returns {string}
    */
-  end() {
+  end () {
     return `}
     }
-    `
+    `;
   }
 }
 
