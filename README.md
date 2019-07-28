@@ -2,7 +2,7 @@ pdf-gold-digger
 ====
 
 Pdf information extraction library based on [pdf.js](https://mozilla.github.io/pdf.js/)
-and [node.js](https://nodejs.org).
+and [node.js](https://nodejs.org) with various output formats.
 
 ![GitHub](https://img.shields.io/github/license/vane/pdf-gold-digger)
 ![npm](https://img.shields.io/npm/v/pdf-gold-digger)
@@ -27,8 +27,8 @@ ex. pdfdig -i input-file -o output_directory -f json
   --input  or  -i   pdf file location (required)
   --output or  -o   pdf file location (optional default "out")
   --debug  or  -d   show debug information (optional - default "false")
-  --format or  -f   format (optional - default "text") - ("text,json,xml") 
-  --font   or  -t   extract fonts as ttf files
+  --format or  -f   format (optional - default "text") - ("text,json,xml,html") 
+  --font   or  -t   extract fonts as ttf files (optional)
   --help   or  -h   display this help message
 ```
 
@@ -52,12 +52,12 @@ and see results in ```out``` directory
   - text ```-f text (default)```
   - json ```-f json```
   - xml  ```-f xml``` 
+  - html  ```-f html``` 
 - specify output directory
 
 ## TODO:
 - load pdf from remote location
   - from url
-- output to html format
 - output to markdown format
 - output to zip
 - extract tables

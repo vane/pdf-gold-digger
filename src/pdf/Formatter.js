@@ -11,12 +11,13 @@ class Formatter {
   constructor (config) {
     this.debug = config.debug;
     /**
-     * @type {{json: FormatterJSON, xml: FormatterXML, text: FormatterText}}
+     * @type {{json: FormatterJSON, xml: FormatterXML, text: FormatterText, html: FormatterHTML}}
      */
     this.formatters = {
       json: new f.FormatterJSON(),
       xml: new f.FormatterXML(),
       text: new f.FormatterText(),
+      html: new f.FormatterHTML(),
     };
     this.data = '';
   }
