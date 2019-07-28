@@ -1,6 +1,17 @@
 const Model = require('./model');
 const Constraints = require('./Constraints');
 const util = require('pdfjs-dist/lib/shared/util');
+const opentype = require('opentype.js');
+
+const FONT_CACHE = {};
+
+const KNOWN_STYLES_MAP = {
+  Regular: 'normal',
+  Normal: 'normal',
+  Bold: 'bold',
+  Italic: 'italic',
+  'Bold Italic': 'bold_italic',
+};
 
 /**
  * Extracts text information from glyphs
@@ -65,7 +76,7 @@ class ExtractText {
     line.setText(partial);
     const isNew = lineList.y !== 0 && Math.abs(line.y - lineList.y) > line.font.size;
     if (isNew) {
-      // lineList.printText();
+      lineList.printText();
       lineList = page.currentObject.newLine();
     }
     lineList.y = startY;
@@ -127,7 +138,47 @@ class ExtractText {
       font.family = fontObj.loadedName;
     }
     font.vertical = fontObj.vertical;
+    this.parseFont(fontObj, font);
     page.currentFont = font;
+  }
+
+  /**
+   * Load font using opentype.js and get font information like style weight based on font data
+   * @param {object} fontObj
+   * @param {FontObject} font
+   */
+  parseFont (fontObj, font) {
+    let fontLoaded = null;
+    // load font
+    if (!(fontObj.name in FONT_CACHE)) {
+      if (!fontObj.missingFile) {
+        fontLoaded = opentype.parse(fontObj.data.buffer);
+        FONT_CACHE[fontObj.name] = fontLoaded;
+      }
+    } else {
+      fontLoaded = FONT_CACHE[fontObj.name];
+    }
+    // get font information
+    if (fontLoaded) {
+      const subFamily = fontLoaded.names.fontSubfamily;
+      const subFamilyArray = Object.keys(subFamily);
+      let style = subFamily[subFamilyArray[0]];
+      if (style in KNOWN_STYLES_MAP) {
+        style = KNOWN_STYLES_MAP[style];
+      } else {
+        console.log('implement');
+      }
+      if (style === 'normal') {
+        font.weight = 'normal';
+      } else if (style === 'bold') {
+        font.weight = 'bold';
+      } else if (style === 'italic') {
+        font.style = 'italic';
+      } else if (style === 'bold_italic') {
+        font.style = 'italic';
+        font.weight = 'bold';
+      }
+    }
   }
 }
 

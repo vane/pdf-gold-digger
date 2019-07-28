@@ -72,9 +72,11 @@ src="img/${imageObject.name}"/>\n`;
    * @returns {object}
    */
   formatTextFont (textFont) {
-    return `<span class="pdfdig-text-font" style="font-family: ${textFont.font.family};
-font-size:${textFont.font.size}pt;
-font-weight:${textFont.font.weight};">
+    const font = textFont.font;
+    return `<span class="pdfdig-text-font" style="font-family: ${font.family};
+font-size:${font.size}pt;
+font-style:${font.style};
+font-weight:${font.weight};">
 ${textFont.getText()}
 </span>`;
   }
