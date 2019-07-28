@@ -3,7 +3,7 @@ const GoldDigger = require('./src/GoldDigger');
 const FileManager = require('./src/pdf/FileManager');
 
 
-const supportedFormat = ['text', 'json'];
+const supportedFormat = ['text', 'json', 'xml'];
 const ERR_INVALID_FORMAT = `
 Invalid output
 Please specify one of those values : "${supportedFormat}"
