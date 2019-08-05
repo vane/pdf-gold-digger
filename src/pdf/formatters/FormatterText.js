@@ -28,7 +28,7 @@ class FormatterText {
     });
     lines.forEach(textLine => {
       const txtLineOut = this.formatTextLine(textLine);
-      console.log(txtLineOut);
+      // console.log(txtLineOut);
       txtObjOut += txtLineOut + '\n';
     });
     return txtObjOut;
