@@ -63,3 +63,8 @@ and see results in ```out``` directory
 - extract tables
 - extract forms
 - extract drawings
+- extract text from glyphs 
+  - ability to provide input file for glyph path to letter
+  - detect when unicode is not provided or mangled  
+  - get bounding box from text and draw it on canvas  
+  - use tesseract.js as optional fallback  
