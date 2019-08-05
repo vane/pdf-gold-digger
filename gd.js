@@ -3,7 +3,7 @@ const GoldDigger = require('./src/GoldDigger');
 const FileManager = require('./src/pdf/FileManager');
 
 const ver = "0.0.7";
-const supportedFormat = ['text', 'json', 'xml', 'html'];
+const supportedFormat = ['txt', 'json', 'xml', 'html'];
 const ERR_INVALID_FORMAT = `
 Invalid output
 Please specify one of those values : "${supportedFormat}"
@@ -15,7 +15,7 @@ ex. pdfdig -i input-file -o output_directory -f json
 --input   or  -i   pdf file location (required)
 --output  or  -o   pdf file location (optional default "out")
 --debug   or  -d   show debug information (optional - default "false")
---format  or  -f   format (optional - default "text") - ("${supportedFormat}")
+--format  or  -f   format (optional - default "txt") - ("${supportedFormat}")
 --font    or  -t   extract fonts as ttf files
 --help    or  -h   display this help message
 --version or  -v   display version information
@@ -47,7 +47,7 @@ if(!input) {
   return;
 }
 // output format
-const format = argv['format'] || argv['f'] || 'text';
+const format = argv['format'] || argv['f'] || 'txt';
 if(format && supportedFormat.indexOf(format) < 0) {
   console.error(ERR_INVALID_FORMAT);
   return;

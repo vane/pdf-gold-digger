@@ -16,7 +16,7 @@ class Formatter {
     this.formatters = {
       json: new f.FormatterJSON(),
       xml: new f.FormatterXML(),
-      text: new f.FormatterText(),
+      txt: new f.FormatterText(),
       html: new f.FormatterHTML(),
     };
     this.data = '';
