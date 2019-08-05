@@ -42,6 +42,9 @@ class FontObject {
      * @type {number}
      */
     this.spaceWidth = 250;
+    this.loadedName = null;
+    this.obj = null;
+    this.opentype = null;
   }
 
   /**

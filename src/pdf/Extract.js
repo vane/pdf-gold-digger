@@ -55,8 +55,13 @@ class ExtractText {
       if (spacing > 0) {
         console.warn(`Not implemented spacing : ${spacing} !`);
       }
-      // TODO use glyph font character
+      // TODO add optional recogniser based on glyph draw path ex tesseract.js
+      //if(line.font.opentype) {
+      //  const p = line.font.opentype.getPath(glyph.fontChar);
+      //  console.log(p);
+      // } else {
       partial += glyph.unicode;
+      //}
       const width = glyph.width;
       // const widthAdvanceScale = font.size * line.fontMatrix[0];
       const widthAdvanceScale = line.font.size * Constraints.FONT_IDENTITY_MATRIX[0];
@@ -119,6 +124,7 @@ class ExtractText {
         data: fontObj.data,
         type: fontObj.type,
         mimetype: fontObj.mimetype,
+        loadedName: fontObj.loadedName,
       };
     }
     // calculate space width
@@ -133,6 +139,7 @@ class ExtractText {
       font.spaceWidthIsSet = true;
       font.spaceWidth = fontObj.widths[spaceKey];
     }
+    font.loadedName = fontObj.loadedName;
     font.setSize(details[1]);
     font.weight = fontObj.black ? (fontObj.bold ? 'bolder' : 'bold') : (fontObj.bold ? 'bold' : 'normal');
     font.style = fontObj.italic ? 'italic' : 'normal';
@@ -143,6 +150,7 @@ class ExtractText {
       font.family = fontObj.loadedName;
     }
     font.vertical = fontObj.vertical || false;
+    font.obj = fontObj;
     this.parseFont(fontObj, font);
     page.currentFont = font;
   }
@@ -155,13 +163,13 @@ class ExtractText {
   parseFont (fontObj, font) {
     let fontLoaded = null;
     // load font
-    if (!(fontObj.name in FONT_CACHE)) {
-      if (!fontObj.missingFile) {
+    if (!(fontObj.loadedName in FONT_CACHE)) {
+      if (!fontObj.missingFile && fontObj.data) {
         fontLoaded = opentype.parse(fontObj.data.buffer);
-        FONT_CACHE[fontObj.name] = { loaded: fontLoaded };
+        FONT_CACHE[fontObj.loadedName] = { loaded: fontLoaded };
       }
     } else {
-      fontLoaded = FONT_CACHE[fontObj.name].loaded;
+      fontLoaded = FONT_CACHE[fontObj.loadedName].loaded;
     }
     // get font information
     if (fontLoaded) {
@@ -186,7 +194,8 @@ class ExtractText {
         font.style = 'italic';
         font.weight = 'bold';
       }
-      FONT_CACHE[fontObj.name].font = font;
+      font.opentype = fontLoaded;
+      FONT_CACHE[fontObj.loadedName].font = font;
     }
   }
 }
