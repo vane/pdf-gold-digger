@@ -74,7 +74,9 @@ class GoldDigger {
       this.formatter.format(format, pageData, page.objectList, last);
       if (debug) console.log(`--- END Page ${pageNum} objects : ${page.objectList.length}`);
     }
-    this.formatter.formatFont(format, Extract.FONT_CACHE);
+    if(this.config.fonts) {
+      this.formatter.formatFont(format, Extract.FONT_CACHE);
+    }
     this.formatter.end(format);
     // save to file
     const fpath = `${this.config.outputDir}/data.${format}`;

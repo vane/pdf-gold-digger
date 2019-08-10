@@ -122,7 +122,7 @@ class FormatterJSON {
     const out = JSON.stringify({
       data: txtData,
     }); // pretty print (output, null, 4)
-    return `"${page.pageIndex}": ${out}${last ? '},\n' : ','}`;
+    return `"${page.pageIndex}": ${out}${last ? '}\n' : ','}`;
   }
 
   /**
@@ -130,7 +130,7 @@ class FormatterJSON {
    * @param {array} fontData
    */
   formatFont (fontData) {
-    let out = '"fonts":{';
+    let out = ',"fonts":{';
     Object.values(fontData).forEach(fontObj => {
       const font = fontObj.font;
       const fontJSON = JSON.stringify({
