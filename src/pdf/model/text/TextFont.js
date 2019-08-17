@@ -15,6 +15,7 @@ class TextFont extends PdfObject {
     this.charSpacing = 0;
     this.wordSpacing = 0;
     this._tolerance = 5;
+    this.end = 0;
   }
 
   /**

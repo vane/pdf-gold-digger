@@ -70,15 +70,18 @@ class ExtractText {
         x += charWidth;
         continue;
       }
-      line.x = page.x += charWidth;
-      if (line.font.vertical) {
-        page.y -= x * page.textHScale;
-      } else {
-        page.x += x * page.textHScale;
-      }
+      x += charWidth;
+      // line.x = page.x += charWidth;
     }
     line.x = page.x;
     line.y = page.y;
+    if (line.font.vertical) {
+      page.y -= x * page.textHScale;
+      line.end = page.y;
+    } else {
+      page.x += x * page.textHScale;
+      line.end = page.x;
+    }
     line.setText(partial);
     const isNew = lineList.y !== 0 && Math.abs(line.y - lineList.y) > line.font.size;
     if (isNew) {

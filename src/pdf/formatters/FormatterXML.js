@@ -92,6 +92,7 @@ class FormatterXML {
     vertical="${font.vertical}"
     x="${textFont.x}"
     y="${textFont.y}"
+    end="${textfont.end}"
     char-spacing="${textFont.charSpacing}"
     word-spacing="${textFont.wordSpacing}">${escapeXml(textFont.getText())}</text>\n`;
   }

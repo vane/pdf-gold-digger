@@ -93,6 +93,7 @@ class FormatterJSON {
       },
       x: textFont.x,
       y: textFont.y,
+      end: textFont.end,
       text: textFont.getText(),
       charSpacing: textFont.charSpacing,
       wordSpacing: textFont.wordSpacing,
