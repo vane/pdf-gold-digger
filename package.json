@@ -7,9 +7,9 @@
   "license": "MIT",
   "repository": "vane/pdf-gold-digger",
   "dependencies": {
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.5",
     "opentype.js": "^1.1.0",
-    "pdfjs-dist": "^2.1.266"
+    "pdfjs-dist": "^2.5.207"
   },
   "bin": {
     "pdfdig": "./bin/pdfdig"

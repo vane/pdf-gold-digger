@@ -12,13 +12,14 @@ Please specify one of those values : "${supportedFormat}"
 const helpText = `
 ex. pdfdig -i input-file -o output_directory -f json
 
---input   or  -i   pdf file location (required)
---output  or  -o   pdf file location (optional default "out")
---debug   or  -d   show debug information (optional - default "false")
---format  or  -f   format (optional - default "txt") - ("${supportedFormat}")
---font    or  -t   extract fonts as ttf files
---help    or  -h   display this help message
---version or  -v   display version information
+--input    or  -i   pdf file location (required)
+--output   or  -o   pdf file location (optional default "out")
+--debug    or  -d   show debug information (optional - default "false")
+--format   or  -f   format (optional - default "txt") - ("${supportedFormat}")
+--font     or  -t   extract fonts as ttf files
+--password or  -p   password
+--help     or  -h   display this help message
+--version  or  -v   display version information
 `;
 
 // converts argument to boolean
@@ -58,12 +59,14 @@ FileManager.mkdirNotExists(output);
 // other config - debug / fonts
 const debug = argv['debug'] || argv['d'];
 const fonts = argv['font'] || argv['t'];
+const password = argv['password'] || argv['p'] || '';
 // build configuration
 const config = {};
 config.paintFormXObject = false;
 config.format = format;
 config.outputDir = output;
 config.input = input;
+config.password = String(password);
 config.debug = toBool(debug);
 config.fonts = toBool(fonts);
 
@@ -75,4 +78,9 @@ gd.dig().then(() => {
   console.log('Results : ');
   FileManager.readdirSync(output).forEach(file => console.log(`${output}/${file}`));
   console.log('-----------------------------------------------');
+}).catch((e) => {
+  console.log('-----------------------------------------------');
+  console.error(`Error : ${e.message}`);
+  console.log('-----------------------------------------------');
+  if(config.debug) throw e;
 });

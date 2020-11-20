@@ -1,5 +1,5 @@
 const fs = require('fs');
-const pdf = require('pdfjs-dist');
+const pdf = require('pdfjs-dist/es5/build/pdf');
 const Visitor = require('./pdf/Visitor');
 const Formatter = require('./pdf/Formatter');
 const FileManager = require('./pdf/FileManager');
@@ -42,6 +42,7 @@ class GoldDigger {
     if (this.config.debug) console.log(data.length);
     const doc = await pdf.getDocument({
       data: data,
+      password: this.config.password,
     }).promise;
     return doc;
   }
