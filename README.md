@@ -24,12 +24,14 @@ pdfdig -i some_file.pdf
 pdfdig -h
 ex. pdfdig -i input-file -o output_directory -f json
   
-  --input  or  -i   pdf file location (required)
-  --output or  -o   pdf file location (optional default "out")
-  --debug  or  -d   show debug information (optional - default "false")
-  --format or  -f   format (optional - default "text") - ("text,json,xml,html") 
-  --font   or  -t   extract fonts as ttf files (optional)
-  --help   or  -h   display this help message
+  --input    or  -i   pdf file location (required)
+  --output   or  -o   pdf file location (optional default "out")
+  --debug    or  -d   show debug information (optional - default "false")
+  --format   or  -f   format (optional - default "text") - ("text,json,xml,html") 
+  --font     or  -t   extract fonts as ttf files (optional)
+  --password or  -p   password
+  --help     or  -h   display this help message
+  --version  or  -v   display version information
 ```
 
 ## Advanced usage
