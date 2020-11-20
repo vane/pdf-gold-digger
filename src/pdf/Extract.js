@@ -132,10 +132,12 @@ class ExtractText {
     }
     // calculate space width
     let spaceKey = -1;
-    for (const key in fontObj.toUnicode._map) {
-      if (fontObj.toUnicode._map[key] === ' ') {
-        spaceKey = key;
-        break;
+    if (fontObj.toUnicode) {
+      for (const key in fontObj.toUnicode._map) {
+        if (fontObj.toUnicode._map[key] === ' ') {
+          spaceKey = key;
+          break;
+        }
       }
     }
     if (spaceKey > -1 && fontObj.widths[spaceKey]) {
